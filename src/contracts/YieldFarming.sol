@@ -17,6 +17,10 @@ import "./HELPIToken.sol";
 contract YieldFarming {
     HELPIToken public helpiToken;
     uint public helpibalance;
+    uint public helpiRewarded = 0;
+
+    uint public totalStakedCelo = 0;
+    uint public totalStakedcUSD = 0;
     address public owner;
     uint public apr = 500;
     uint public releaselimit = 10000000000000000000; //10 tokens released at a time
@@ -50,6 +54,7 @@ contract YieldFarming {
     constructor(HELPIToken _helpiToken) public{
         helpiToken = _helpiToken;
         helpibalance = helpiToken.balanceOf(address(this));
+        helpiRewarded = helpibalance;
         owner = msg.sender;
     }
 
@@ -77,6 +82,8 @@ contract YieldFarming {
 
             celoisStaking[msg.sender] = true;
             celohasStaked[msg.sender] = true;
+
+            totalStakedCelo +=  _amount;
         }
         else
         {
@@ -93,6 +100,9 @@ contract YieldFarming {
 
             cusdisStaking[msg.sender] = true;
             cusdhasStaked[msg.sender] = true;
+
+            totalStakedCUSD +=  _amount;
+
         }
     }
 
@@ -103,9 +113,10 @@ contract YieldFarming {
             require(celohasStaked[msg.sender] == true);
             require(celoisStaking[msg.sender] == true);
             require(celobalance > 0);
-            IERC20Token(celoTokenAddress).transfer(msg.sender, celobalance);
             celostakingBalance[msg.sender] = 0;
             celoisStaking[msg.sender] = false;
+            totalStakedCelo -= celobalance;
+            IERC20Token(celoTokenAddress).transfer(msg.sender, celobalance);
         }
         else
         {
@@ -113,9 +124,10 @@ contract YieldFarming {
             require(cusdhasStaked[msg.sender] == true);
             require(cusdisStaking[msg.sender] == true);
             require(cusdbalance > 0);
-            IERC20Token(cUsdTokenAddress).transfer(msg.sender, cusdbalance);
             cusdstakingBalance[msg.sender] = 0;
             cusdisStaking[msg.sender] = false;
+            totalStakedUSD -= cusdbalance;
+            IERC20Token(cUsdTokenAddress).transfer(msg.sender, cusdbalance);
         }
 
     }
@@ -135,7 +147,6 @@ contract YieldFarming {
             vestedamount[msg.sender] = 0;
         }
         vestedtime[msg.sender] = _time;
-
     }
 
     //Redeem tokens
@@ -150,26 +161,33 @@ contract YieldFarming {
     //Issue new tokens
     function issueTokens() public {
         require(msg.sender == owner); // only the owner who deployed this funciton can call this function
+
+        celoAPR = helpiRewarded / (totalStakedCelo*100);
+        cusdAPR = helpiRewarded / (totalStakedCUSD*100);
+
         for (uint i=0; i< celostakers.length; i++){
             address recipent = celostakers[i];
-            uint interest = celostakingBalance[recipent]*(apr/100);
             require(celoisStaking[recipent] == true);
-            if(interest > 0){
+            if(celostakingBalance[recipent] > 0){
+                uint interest = celostakingBalance[recipent]*celoAPR;
                 vestedamount[recipent] = vestedamount[recipent] + interest;
-              helpibalance -= interest;
+                helpibalance -= interest;
+                helpiRewarded += interest;
             }
 
         }
 
         for (uint i=0; i< cusdstakers.length; i++){
             address recipent = cusdstakers[i];
-            uint interest = cusdstakingBalance[recipent]*(apr/100);
+            if(cusdstakingBalance[recipent] > 0){
+            uint interest = cusdstakingBalance[recipent]*cusdAPR;
             require(cusdisStaking[recipent] == true);
-            if(interest > 0){
               vestedamount[recipent] = vestedamount[recipent] + interest;
               helpibalance -= interest;
             }
 
         }
     }
+
+    
 }

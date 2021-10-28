@@ -18,17 +18,21 @@ contract HELPIToken {
         uint256 _value
     );
 
-    mapping(address => uint256) public balanceOf;
+    mapping(address => uint256) public _balanceOf;
     mapping(address => mapping(address => uint256)) public allowance;
 
     constructor() public {
-        balanceOf[msg.sender] = totalSupply;
+        _balanceOf[msg.sender] = totalSupply;
+    }
+
+    function balanceOf(address _address) public returns (uint256) {
+        return _balanceOf[_address];
     }
 
     function transfer(address _to, uint256 _value) public returns (bool success) {
-        require(balanceOf[msg.sender] >= _value);
-        balanceOf[msg.sender] -= _value;
-        balanceOf[_to] += _value;
+        require(_balanceOf[msg.sender] >= _value);
+        _balanceOf[msg.sender] -= _value;
+        _balanceOf[_to] += _value;
         emit Transfer(msg.sender, _to, _value);
         return true;
     }
@@ -40,10 +44,10 @@ contract HELPIToken {
     }
 
     function transferFrom(address _from, address _to, uint256 _value) public returns (bool success) {
-        require(_value <= balanceOf[_from]);
+        require(_value <= _balanceOf[_from]);
         require(_value <= allowance[_from][msg.sender]);
-        balanceOf[_from] -= _value;
-        balanceOf[_to] += _value;
+        _balanceOf[_from] -= _value;
+        _balanceOf[_to] += _value;
         allowance[_from][msg.sender] -= _value;
         emit Transfer(_from, _to, _value);
         return true;

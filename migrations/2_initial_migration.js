@@ -6,14 +6,14 @@ const TokenSwitch = artifacts.require('TokenSwitch')
 const YieldFarming = artifacts.require('YieldFarming')
 
 
-module.exports = async function(deployer, network, accounts) {
+module.exports = async function() {
   // Deploy Mock DAI Token
   //await deployer.deploy(DaiToken)
   //const daiToken = await DaiToken.deployed()
 
   // Deploy Helpi Token
   //await deployer.deploy(HELPIToken)
-  const helpi = await HELPIToken.deployed()
+  const helpi = await HELPIToken.new()
 
   // Deploy USDT Token
   //await deployer.deploy(USDToken)
@@ -24,8 +24,8 @@ module.exports = async function(deployer, network, accounts) {
   //const inrt = await INRToken.deployed()
 
   // Deploy YieldFarming
-  await deployer.deploy(YieldFarming, helpi.address)
-  const yieldFarming = await YieldFarming.deployed()
+  await HELPIToken.setAsDeployed(YieldFarming, helpi.address)
+  const yieldFarming = await YieldFarming.new()
 
   // Deploy TokenSwitch
   //await deployer.deploy(TokenSwitch, usdt.address, inrt.address)

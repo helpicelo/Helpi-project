@@ -1,3 +1,7 @@
 node_modules/
 .secret
 build/
+.env
+artifacts/
+cache/console-history.txt
+cache/

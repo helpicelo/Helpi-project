@@ -65,6 +65,11 @@ class Staking extends Component {
             cusdstakingBalance = BigNumber(cusdstakingBalance).shiftedBy(-ERC20_DECIMALS)
             this.setState({ cusdstakingBalance: cusdstakingBalance.toString() })
             console.log("CUSD")
+            let testTime = await yieldFarming.methods.lastContribution(this.state.account).call()
+            //cusdstakingBalance = BigNumber(cusdstakingBalance).shiftedBy(-ERC20_DECIMALS)
+            //this.setState({ cusdstakingBalance: cusdstakingBalance.toString() })
+            console.log("This is the last updated time:", testTime.toString())
+            console.log("CUSD")
             let helpiTokenBalance = await yieldFarming.methods.lockedBalance(this.state.account).call()
             helpiTokenBalance = BigNumber(helpiTokenBalance).shiftedBy(-ERC20_DECIMALS)
             console.log("This is the help balalce", helpiTokenBalance.toString())
@@ -86,6 +91,21 @@ class Staking extends Component {
             cusdTokenBalance = BigNumber(cusdTokenBalance).shiftedBy(-ERC20_DECIMALS)
             cusdTokenBalance = cusdTokenBalance.toFixed(2)
             this.setState({ cusdTokenBalance: cusdTokenBalance.toString() })
+            console.log("Before this")
+            let celoStakedBalance = await celoToken.methods.balanceOf(yieldfarmingaddress).call()
+            celoStakedBalance = BigNumber(celoStakedBalance).shiftedBy(-ERC20_DECIMALS)
+            celoStakedBalance = celoStakedBalance.toFixed(2)
+            console.log("celo staked:", celoStakedBalance)
+            let celoAPR = (0.0000317*31540000)/celoStakedBalance
+            console.log("celo APR:", celoAPR)
+            this.setState({ celoAPR: celoAPR.toString() })
+            let cusdStakedBalance = await cusdToken.methods.balanceOf(yieldfarmingaddress).call()
+            cusdStakedBalance = BigNumber(cusdStakedBalance).shiftedBy(-ERC20_DECIMALS)
+            console.log("cusd staked:", cusdStakedBalance)
+            let cusdAPR = (0.0000317*3154000000)/cusdStakedBalance
+            cusdAPR = cusdAPR.toFixed(2)
+            this.setState({ cusdAPR: cusdAPR.toString() })
+            console.log("cusd APR:", cusdAPR)
             console.log("Celo and cUSD tokens loaded")
 
             //helpi token contract
@@ -166,6 +186,8 @@ class Staking extends Component {
       helpiTokenBalance: '0',
       celostakingBalance: '0',
       cusdstakingBalance: '0',
+      celoAPR: '100000',
+      cusdAPR: '100000',
       apr: '0',
       loading: true
     }
@@ -173,6 +195,12 @@ class Staking extends Component {
 
   render() {
     let content
+    if(this.state.celoAPR == "Infinity"){
+        this.state.celoAPR = "100000"
+    }
+    if(this.state.cusdAPR == "Infinity"){
+        this.state.cusdAPR = "100000"
+    }
     if(this.state.loading){
         content = <p id="loader" className="text-center">Loading...</p>
     }else{
@@ -180,7 +208,8 @@ class Staking extends Component {
             cusdTokenBalance = {this.state.cusdTokenBalance}
             celoTokenBalance = {this.state.celoTokenBalance}
             helpiTokenBalance = {this.state.helpiTokenBalance}
-            apr = {this.state.apr}
+            celoAPR = {this.state.celoAPR}
+            cusdAPR = {this.state.cusdAPR}
             celostakingBalance = {this.state.celostakingBalance}
             cusdstakingBalance = {this.state.cusdstakingBalance}
             stakeTokens = {this.stakeTokens}

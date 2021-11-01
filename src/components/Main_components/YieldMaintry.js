@@ -35,7 +35,7 @@ class YieldMain extends Component {
               }}>
               <div>
                 <h4 className="card-title">Stake Celo Tokens</h4>
-                <label className="float-left text-secondary text-lg">APR: {(this.props.apr)}%</label>
+                <label className="float-left text-secondary text-lg">APR: {(this.props.celoAPR)}%</label>
                 <span className="float-right text-muted">
                   Balance: {(this.props.celoTokenBalance)} CELO
                 </span>
@@ -79,7 +79,7 @@ class YieldMain extends Component {
               }}>
               <div>
                 <h4 className="card-title">Stake cUSD Tokens</h4>
-                <label className="float-left text-secondary">APR: {(this.props.apr)}% </label>
+                <label className="float-left text-secondary">APR: {(this.props.cusdAPR)}% </label>
                 <span className="float-right text-muted">
                   Balance: {(this.props.cusdTokenBalance)} cUSD
                 </span>
@@ -110,16 +110,6 @@ class YieldMain extends Component {
               </button>
           </div>
         </div>
-
-        <button
-          type="submit"
-          className="btn btn-success btn-block btn-lg"
-          onClick={(event) => {
-          event.preventDefault()
-          this.props.contribute()
-          }}>
-          CONTRIBUTE
-        </button>
 
       </div>
     );

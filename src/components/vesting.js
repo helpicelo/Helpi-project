@@ -8,9 +8,9 @@ import Tokenaddress from '../tokenaddress.json';
 import USDToken from '../abis/USDToken.json'
 import INRToken from '../abis/INRToken.json'
 import HelpiToken from '../abis/HELPIToken.json'
-import YieldFarming from '../abis/YieldFarming.json'
 import CELOToken from '../abis/IERC20Token.json'
 import cUSDToken from '../abis/IERC20Token.json'
+import stakingcontract from '../abis/StakingContract.json'
 
 // components
 import Navbar from './Navbar'
@@ -19,7 +19,7 @@ import './App.css'
 
 //contracts address
 const ERC20_DECIMALS = 18
-const yieldfarmingaddress = Tokenaddress.YIELD
+const yieldfarmingaddress = Tokenaddress.STAKING
 const helpiTokenaddress = Tokenaddress.HELPI
 
 //variables
@@ -73,21 +73,21 @@ class Vesting extends Component {
 
             //contract = new kit.web3.eth.Contract(marketplaceAbi, MPContractAddress)
             // yieldaddress address
-            const yieldFarming = new kit.web3.eth.Contract(YieldFarming.abi, yieldfarmingaddress)
+            const yieldFarming = new kit.web3.eth.Contract(stakingcontract.abi, yieldfarmingaddress)
             this.setState({ yieldFarming })
-            let lockedBalance = await yieldFarming.methods.vestedamount(this.state.account).call()
+            let lockedBalance = await yieldFarming.methods.lockedBalance(this.state.account).call()
             lockedBalance = BigNumber(lockedBalance).shiftedBy(-ERC20_DECIMALS)
             lockedBalance = lockedBalance.toFixed(2)
             this.setState({ lockedBalance: lockedBalance.toString() })
-            let releasedBalance = await yieldFarming.methods.releasedamount(this.state.account).call()
+            let releasedBalance = await yieldFarming.methods.unlockedBalance(this.state.account).call()
             releasedBalance = BigNumber(releasedBalance).shiftedBy(-ERC20_DECIMALS)
             releasedBalance = releasedBalance.toFixed(2)
             this.setState({ releasedBalance: releasedBalance.toString() })
-            let redeemedBalance = await yieldFarming.methods.redeemedamount(this.state.account).call()
+            let redeemedBalance = await yieldFarming.methods.redeemedBalance(this.state.account).call()
             redeemedBalance = BigNumber(redeemedBalance).shiftedBy(-ERC20_DECIMALS)
             redeemedBalance = redeemedBalance.toFixed(2)
             this.setState({ redeemedBalance: redeemedBalance.toString() })
-            let time = await yieldFarming.methods.vestedtime(this.state.account).call()
+            let time = await yieldFarming.methods.lastRelease(this.state.account).call()
             this.setState({ time: time.toString()})
             console.log("Yieldfarming loaded")
 
@@ -115,21 +115,18 @@ class Vesting extends Component {
 
   // Function sections
 
-  releaseToken = (time) =>{
-    console.log("This is the time sent differece",time - this.state.time)
-    if(time - this.state.time <= 259200){
-    time = time.toString()
+  releaseToken = () =>{
     this.setState({ loading: true})
-    this.state.yieldFarming.methods.releasetoken(time).send({ from: this.state.account }).on('transactionHash', (hash) => {
+    this.state.yieldFarming.methods.releaseTokens().send({ from: this.state.account }).on('transactionHash', (hash) => {
       this.setState({ loading: false})
     })
   }
-  }
+
 
   redeemToken = (amount) =>{
     amount = BigNumber(amount).shiftedBy(ERC20_DECIMALS)
     this.setState({ loading: true})
-    this.state.yieldFarming.methods.redeemtoken(amount).send({ from: this.state.account }).on('transactionHash', (hash) => {
+    this.state.yieldFarming.methods.redeemTokens(amount).send({ from: this.state.account }).on('transactionHash', (hash) => {
       this.setState({ loading: false})
     })
   }

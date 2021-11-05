@@ -7,20 +7,20 @@ import BigNumber from "bignumber.js";
 // token contracts
 import USDToken from '../abis/USDToken.json'
 import INRToken from '../abis/INRToken.json'
-import TokenSwitch from '../abis/TokenSwitch.json'
 
 // components
 import Navbar from './Navbar'
 import './App.css'
-import Yield from './yield.js'
 import Home from './Home.js'
 import USDINR from './Token_components/usd_inr.js'
 import USDPESO from './Token_components/usd_peso.js'
 import INRPESO from './Token_components/inr_peso.js'
-import Vesting from './vestingtry.js'
-import Admin from './admin.js'
+import Vesting from './vesting.js'
 import Contribute from './contribute.js'
 import Staking from './staking.js'
+import buyUSD from './Exchange_components/buy_husd.js'
+import buyINR from './Exchange_components/buy_hinr.js'
+import buyPESO from './Exchange_components/buy_hpeso.js'
 
 //contracts address
 const ERC20_DECIMALS = 18
@@ -29,6 +29,14 @@ const ERC20_DECIMALS = 18
 let kit
 
 class App extends Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      account: '0x0',
+      loading: true
+    }
+  }
 
   // This will call the celo blockchain data functions function and load the web3
   async componentWillMount() {
@@ -68,13 +76,6 @@ class App extends Component {
   // Function sections
 
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      account: '0x0',
-      loading: true
-    }
-  }
 
   render() {
     let content
@@ -84,18 +85,21 @@ class App extends Component {
     return (
       <div>
         <Navbar account={this.state.account} />
+        <Route exact path="/" component = {Home}/>
         <div className="container-fluid mt-5">
           <div className="row">
             <main role="main" className="col-lg-12 ml-auto mr-auto" style={{ maxWidth: '600px' }}>
               <div className="content mr-auto ml-auto">
 
-              <Route exact path="/" component = {Home}/>
+
               <Route exact path="/yield" component = {Staking}/>
               <Route exact path="/vesting" component = {Vesting}/>
-              <Route exact path="/admin" component = {Admin}/>
               <Route exact path="/usd-inr" component = {USDINR}/>
               <Route exact path="/usd-peso" component = {USDPESO}/>
               <Route exact path="/inr-peso" component = {INRPESO}/>
+              <Route exact path="/buy-hUSD" component = {buyUSD}/>
+              <Route exact path="/buy-hINR" component = {buyINR}/>
+              <Route exact path="/buy-hPESO" component = {buyPESO}/>
               <Route exact path="/contribute" component = {Contribute}/>
 
               </div>

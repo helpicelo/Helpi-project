@@ -1,1 +1,102 @@
 /* Styles go here */
+body{
+    background: #f9f9f9;
+}
+
+.navbar{
+   background: black;
+}
+
+.nav-item a{
+ text-decoration: none;
+ color: white;
+}
+
+.navbar-brand a{
+ text-decoration: none;
+ color: #ff4d4d;
+}
+
+.card{
+ border: #a6a6a6 1px solid;
+ box-shadow: #ff4d4d 0px 0px 0px;
+ border-radius: 20px;
+}
+
+.dropdown-menu{
+ background: black;
+}
+
+.dropdown-menu li a:hover{
+ background: #ff4d4d;
+}
+
+.navbar-nav li a:hover{
+ background: #ff4d4d;
+}
+
+.jumbotron{
+ width: 100%;
+ height: 40%;
+ margin-top: 0px;
+ background: red;
+}
+
+.banner-title{
+ color: white;
+ font-size: 30px;
+}
+
+.banner-text{
+ color: white;
+ font-size: 20px;
+}
+
+.masthead{
+ background-image: url("Main_components/LandingMain/assets/img/header-bg1.jpg");
+ width: 100%;
+ height: 800px;
+ padding-bottom: 20px;
+ }
+
+.masthead-subheading{
+ font-size: 50px;
+ color: #ff4d4d;
+ margin: auto;
+ display: block;
+ padding-top: 30%;
+ padding-bottom: 10px;
+ padding-left: 0px;
+}
+
+.masthead-heading{
+ font-size: 20px;
+ margin: auto;
+ display: block;
+ padding: 5px;
+ padding-left: 0px;
+}
+
+.page-section{
+ padding-top: 20px;
+ padding-bottom: 20px;
+}
+
+.section-subheading{
+ padding-top: 10px;
+ padding-bottom: 20px;
+}
+
+.section-heading{
+ padding-bottom: 10px;
+}
+
+.service-img{
+ width: 80px;
+}
+
+.team-img{
+ width: 60%;
+ margin: auto;
+ margin: 10px;
+}

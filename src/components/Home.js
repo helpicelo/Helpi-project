@@ -7,11 +7,12 @@ import BigNumber from "bignumber.js";
 // token contracts
 import USDToken from '../abis/USDToken.json'
 import INRToken from '../abis/INRToken.json'
-import TokenSwitch from '../abis/TokenSwitch.json'
 
 // components
 import Navbar from './Navbar'
 import './App.css'
+//import './Main_components/LandingMain/css/styles.css'
+import Maincontent from './Main_components/LandingMain/Landingmain.js'
 
 
 //contracts address
@@ -73,24 +74,14 @@ class Home extends Component {
     let content
     if(this.state.loading){
         content = <p id="loader" className="text-center">Loading...</p>
+    }else{
+        content = <Maincontent/>
     }
     return (
-      <div>
-        <div className="container-fluid mt-5">
-          <div className="row">
-            <main role="main" className="col-lg-12 ml-auto mr-auto" style={{ maxWidth: '600px' }}>
-              <div className="content mr-auto ml-auto">
 
-
-                <h1>Index Page</h1>
-                <p>This will be the landing page of the site</p>
-
-
-              </div>
-            </main>
-          </div>
+        <div>
+            {content}
         </div>
-      </div>
     );
   }
 }

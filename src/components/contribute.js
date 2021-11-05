@@ -8,7 +8,6 @@ import Tokenaddress from '../tokenaddress.json';
 import USDToken from '../abis/USDToken.json'
 import INRToken from '../abis/INRToken.json'
 import HelpiToken from '../abis/HELPIToken.json'
-import YieldFarming from '../abis/YieldFarming.json'
 import CELOToken from '../abis/IERC20Token.json'
 import cUSDToken from '../abis/IERC20Token.json'
 import IERC20Token from '../abis/IERC20Token.json'
@@ -124,7 +123,7 @@ class Admin extends Component {
         />
     }
 
-    if(this.state.currentTime - this.state.time < 43200  ){
+    if(this.state.currentTime - this.state.time < 43200 ){
         alert = <button type="button" class="btn btn-danger btn-lg btn-block">YOU CAN CONTRIBUTE AFTER 12 HOURS</button>
     }else{
         alert = <button type="submit" class="btn btn-success btn-lg btn-block"
@@ -142,7 +141,16 @@ class Admin extends Component {
               <div className="content mr-auto ml-auto">
 
               <div class="d-grid">
-                 <button type="button" class="btn btn-outline-danger btn-lg btn-block">CONTRIBUTE</button>
+                    <p type="button" class="btn btn-info btn-lg btn-block">
+                    Contribute to the network every 24 hours or less to help others earn rewards on their Staking while earning rewards yourself.
+                    <br></br>
+                    <br></br>
+                    <b>"When you help others, others help you because together we can grow more."</b>
+                    <br></br>
+                    <br></br>
+                    <i><b>Note: </b> If you do not contribute to the system within 24 hours of your last contribution, you would not be rewarded
+                    when others contribute to the system.</i> Your reward cycle will start again when you contribute again to the network.
+                    </p>
               </div>
                 <br></br>
                {alert}

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import dai from '../../dai.png'
+
 
 class YieldMain extends Component {
 
@@ -22,6 +22,8 @@ class YieldMain extends Component {
               </button>
           </div>
         </div>
+
+
       </div>
     );
   }

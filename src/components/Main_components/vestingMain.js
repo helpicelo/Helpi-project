@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import dai from '../../dai.png'
+
 
 class YieldMain extends Component {
 
@@ -7,19 +7,27 @@ class YieldMain extends Component {
     return (
       <div id="content" className="mt-3">
 
+        <div class="d-grid">
+           <p type="button" class="btn btn-info btn-lg btn-block">
+           Helpi Rewards are locked in the system and can only be <i>Unlocked</i> after every <b>72 Hours</b>. You
+            can only release a fraction of our Locked Helpi Rewards at a time. However You
+            can Redeem Unlocked Reward Tokens into your wallet at any time.
+           </p>
+        </div>
+
         <table className="table table-borderless text-muted text-center">
           <thead>
             <tr>
-              <th scope="col">LOCKED BALANCE</th>
-              <th scope="col">UNLOCKED BALANCE</th>
-              <th scope="col">REDEEMED BALANCE</th>
+              <th scope="col"><i>Locked Balance</i></th>
+              <th scope="col"><i>Unlocked Balance</i></th>
+              <th scope="col"><i>Redeemed Balance</i></th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>{(this.props.lockedBalance)} HLP</td>
-              <td>{(this.props.releasedBalance)} HLP</td>
-              <td>{(this.props.redeemedBalance)} HLP</td>
+              <td><i>{(this.props.lockedBalance)} HLP</i></td>
+              <td><i>{(this.props.releasedBalance)} HLP</i></td>
+              <td><i>{(this.props.redeemedBalance)} HLP</i></td>
             </tr>
           </tbody>
         </table>
@@ -53,7 +61,7 @@ class YieldMain extends Component {
                   </div>
                 </div>
               </div>
-              <button type="submit" className="btn btn-primary btn-block btn-lg">REDEEM HELPI!</button>
+              <button type="submit" className="btn btn-info btn-block btn-lg">REDEEM HELPI!</button>
             </form>
 
           </div>

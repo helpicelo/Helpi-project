@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import dai from '../../dai.png'
 
 class YieldMain extends Component {
 
@@ -7,22 +6,30 @@ class YieldMain extends Component {
     return (
       <div id="content" className="mt-3">
 
-        <table className="table table-borderless text-muted text-center">
+        <div class="d-grid">
+           <p type="button" class="btn btn-info btn-lg btn-block">
+           Stake <i>Celo</i> or <i>cUSD</i> and earn <i>Helpi Tokens</i> as a reward according to the Return rate. To earn more
+           reward, stake the tokens for longer durations and keep contributing to the network every 24 hours or less through the <b>Contribute</b> Tab.
+           </p>
+        </div>
+
+        <table className="table table-borderless text-secondary text-center">
           <thead>
             <tr>
-              <th scope="col">CELO STAKED</th>
-              <th scope="col">cUSD STAKED</th>
-              <th scope="col">HELPI REWARDS</th>
+              <th scope="col"><i>Staked Celo</i></th>
+              <th scope="col"><i>Staked cUSD</i></th>
+              <th scope="col"><i>HELPI Rewards</i></th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>{(this.props.celostakingBalance)} CELO</td>
-              <td>{(this.props.cusdstakingBalance)} cUSD</td>
-              <td>{(this.props.helpiTokenBalance)} HLP</td>
+              <td><i>{(this.props.celostakingBalance)} CELO</i></td>
+              <td><i>{(this.props.cusdstakingBalance)} cUSD</i></td>
+              <td><i>{(this.props.helpiTokenBalance)} HLP</i></td>
             </tr>
           </tbody>
         </table>
+
 
         <div className="card mb-4" >
 
@@ -36,9 +43,9 @@ class YieldMain extends Component {
               }}>
               <div>
                 <h4 className="card-title">Stake Celo Tokens</h4>
-                <label className="float-left text-secondary text-lg">APR: {(this.props.apr)}%</label>
+                <label className="float-left text-success font-weight-bold text-sm">APR: {(this.props.celoAPR)}%</label>
                 <span className="float-right text-muted">
-                  Balance: {(this.props.celoTokenBalance)} CELO
+                  Wallet Balance: {(this.props.celoTokenBalance)} CELO
                 </span>
               </div>
               <div className="input-group mb-4">
@@ -54,7 +61,7 @@ class YieldMain extends Component {
                   </div>
                 </div>
               </div>
-              <button type="submit" className="btn btn-primary btn-block btn-lg">STAKE CELO!</button>
+              <button type="submit" className="btn btn-info btn-block btn-lg">STAKE CELO!</button>
             </form>
             <button
               type="submit"
@@ -80,7 +87,7 @@ class YieldMain extends Component {
               }}>
               <div>
                 <h4 className="card-title">Stake cUSD Tokens</h4>
-                <label className="float-left text-secondary">APR: {(this.props.apr)}% </label>
+                <label className="float-left text-success font-weight-bold">APR: {(this.props.cusdAPR)}% </label>
                 <span className="float-right text-muted">
                   Balance: {(this.props.cusdTokenBalance)} cUSD
                 </span>
@@ -98,7 +105,7 @@ class YieldMain extends Component {
                   </div>
                 </div>
               </div>
-              <button type="submit" className="btn btn-primary btn-block btn-lg">STAKE cUSD!</button>
+              <button type="submit" className="btn btn-info btn-block btn-lg">STAKE cUSD!</button>
             </form>
             <button
               type="submit"

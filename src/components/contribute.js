@@ -124,7 +124,7 @@ class Admin extends Component {
         />
     }
 
-    if(this.state.currentTime - this.state.time < 4320000  ){
+    if(this.state.currentTime - this.state.time < 43200  ){
         alert = <button type="button" class="btn btn-danger btn-lg btn-block">YOU CAN CONTRIBUTE AFTER 12 HOURS</button>
     }else{
         alert = <button type="submit" class="btn btn-success btn-lg btn-block"

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import {Link} from 'react-router-dom'
-import farmer from '../farmer.png'
 import Yield from './yield.js'
 import Home from './Home.js'
 import App from './App.js'
@@ -25,12 +24,13 @@ class Navbar extends Component {
                     <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown"><Link to="/mutate">Mutate Tokens</Link></a>
                     <div class="dropdown-menu">
                         <li><a class="dropdown-item" href="#"><Link to="/usd-inr">USD-INRT</Link></a></li>
-                        <li><a class="dropdown-item" href="#">USD-cPESO</a></li>
-                        <li><a class="dropdown-item" href="#">INRT-cPESO</a></li>
+                        <li><a class="dropdown-item" href="#"><Link to="/usd-peso">USD-cPESO</Link></a></li>
+                        <li><a class="dropdown-item" href="#"><Link to="/inr-peso">INRT-cPESO</Link></a></li>
                     </div>
                </li>
               <li><a class="nav-item text-decoration-none nav-link" href="#"><Link to="/yield">Staking Pool</Link></a></li>
               <li><a class="nav-item text-decoration-none nav-link" href="#"><Link to="/vesting">Vesting</Link></a></li>
+               <li><a class="nav-item text-decoration-none nav-link" href="#"><Link to="/contribute">Contribute</Link></a></li>
               <li><a class="nav-item text-decoration-none nav-link" href="#">About Us</a></li>
               <li><a class="nav-item text-decoration-none nav-link" href="#">Paper</a></li>
             </div>

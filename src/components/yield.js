@@ -70,6 +70,7 @@ class Yield extends Component {
             let helpiTokenBalance = await yieldFarming.methods.vestedamount(this.state.account).call()
             console.log("helpi balce")
             helpiTokenBalance = BigNumber(helpiTokenBalance).shiftedBy(-ERC20_DECIMALS)
+            helpiTokenBalance = helpiTokenBalance.toFixed(2)
             this.setState({ helpiTokenBalance: helpiTokenBalance.toString() })
             console.log("Yield Farming loaded")
 
@@ -79,11 +80,13 @@ class Yield extends Component {
             console.log("cusd")
             let celoTokenBalance = await celoToken.methods.balanceOf(this.state.account).call()
             celoTokenBalance = BigNumber(celoTokenBalance).shiftedBy(-ERC20_DECIMALS)
+            celoTokenBalance = celoTokenBalance.toFixed(2)
             this.setState({ celoTokenBalance: celoTokenBalance.toString() })
             let cusdToken = new kit.web3.eth.Contract(cUSDToken.abi, cusdTokenaddress)
             this.setState({ cusdToken })
             let cusdTokenBalance = await cusdToken.methods.balanceOf(this.state.account).call()
             cusdTokenBalance = BigNumber(cusdTokenBalance).shiftedBy(-ERC20_DECIMALS)
+            cusdTokenBalance = cusdTokenBalance.toFixed(2)
             this.setState({ cusdTokenBalance: cusdTokenBalance.toString() })
             console.log("Celo and cUSD tokens loaded")
 

@@ -17,8 +17,10 @@ import Home from './Home.js'
 import USDINR from './Token_components/usd_inr.js'
 import USDPESO from './Token_components/usd_peso.js'
 import INRPESO from './Token_components/inr_peso.js'
-import Vesting from './vesting.js'
+import Vesting from './vestingtry.js'
 import Admin from './admin.js'
+import Contribute from './contribute.js'
+import Staking from './staking.js'
 
 //contracts address
 const ERC20_DECIMALS = 18
@@ -88,12 +90,13 @@ class App extends Component {
               <div className="content mr-auto ml-auto">
 
               <Route exact path="/" component = {Home}/>
-              <Route exact path="/yield" component = {Yield}/>
+              <Route exact path="/yield" component = {Staking}/>
               <Route exact path="/vesting" component = {Vesting}/>
               <Route exact path="/admin" component = {Admin}/>
               <Route exact path="/usd-inr" component = {USDINR}/>
               <Route exact path="/usd-peso" component = {USDPESO}/>
               <Route exact path="/inr-peso" component = {INRPESO}/>
+              <Route exact path="/contribute" component = {Contribute}/>
 
               </div>
             </main>

@@ -13,7 +13,6 @@ import MutateToken from '../../abis/MutateToken.json'
 import Navbar from './../Navbar'
 import TokenMain from '../Main_components/Main'
 import './../App.css'
-import Yield from './../yield.js'
 import Home from './../Home.js'
 
 //variables **Change needed here
@@ -22,8 +21,8 @@ let kit
 let a_currency = "USD"
 let b_currency = "INR"
 // tokens for that currencies
-let a_token = "USDT"
-let b_token = "INRT"
+let a_token = "hUSD"
+let b_token = "hINR"
 
 //contracts address
 const ERC20_DECIMALS = 18
@@ -48,6 +47,7 @@ class USD_INR extends Component {
       apoolBalance: '0',
       bpoolBalance: '0',
       exchangerate: '75',
+      amount: '0',
       loading: true
     }
   }
@@ -97,10 +97,12 @@ class USD_INR extends Component {
             console.log("aToken loaded")
             let aTokenBalance = await atoken.methods.balanceOf(this.state.account).call()
             aTokenBalance = BigNumber(aTokenBalance).shiftedBy(-ERC20_DECIMALS)
+            aTokenBalance = aTokenBalance.toFixed(2)
             this.setState({ aTokenBalance: aTokenBalance.toString() })
             console.log("aTokenbalance loaded")
             let apoolBalance = await atoken.methods.balanceOf(mutatetokenaddress).call()
             apoolBalance = BigNumber(apoolBalance).shiftedBy(-ERC20_DECIMALS)
+            apoolBalance = apoolBalance.toFixed(2)
             this.setState({ apoolBalance: apoolBalance.toString() })
             console.log("a Token loaded")
 
@@ -109,9 +111,11 @@ class USD_INR extends Component {
             this.setState({ btoken})
             let bTokenBalance = await btoken.methods.balanceOf(this.state.account).call()
             bTokenBalance = BigNumber(bTokenBalance).shiftedBy(-ERC20_DECIMALS)
+            bTokenBalance = bTokenBalance.toFixed(2)
             this.setState({ bTokenBalance: bTokenBalance.toString() })
             let bpoolBalance = await btoken.methods.balanceOf(mutatetokenaddress).call()
             bpoolBalance = BigNumber(bpoolBalance).shiftedBy(-ERC20_DECIMALS)
+            bpoolBalance = bpoolBalance.toFixed(2)
             this.setState({ bpoolBalance: bpoolBalance.toString() })
             console.log("b Token loaded")
 
@@ -155,6 +159,7 @@ class USD_INR extends Component {
   }
 
 
+
   render() {
     let content
     if(this.state.loading){
@@ -170,6 +175,7 @@ class USD_INR extends Component {
             exchangerate = {this.state.exchangerate}
             a_b = {this.a_b}
             b_a = {this.b_a}
+
         />
     }
     return (

@@ -13,7 +13,6 @@ import MutateToken from '../../abis/MutateToken.json'
 import Navbar from './../Navbar'
 import TokenMain from '../Main_components/Main'
 import './../App.css'
-import Yield from './../yield.js'
 import Home from './../Home.js'
 
 //variables
@@ -22,8 +21,8 @@ let kit
 let a_currency = "USD"
 let b_currency = "COP"
 // tokens for that currencies
-let a_token = "USDT"
-let b_token = "cPESO"
+let a_token = "hUSD"
+let b_token = "hPESO"
 
 //contracts address
 const ERC20_DECIMALS = 18
@@ -95,9 +94,11 @@ class USD_cPESO extends Component {
             this.setState({ atoken })
             let aTokenBalance = await atoken.methods.balanceOf(this.state.account).call()
             aTokenBalance = BigNumber(aTokenBalance).shiftedBy(-ERC20_DECIMALS)
+            aTokenBalance = aTokenBalance.toFixed(2)
             this.setState({ aTokenBalance: aTokenBalance.toString() })
             let apoolBalance = await atoken.methods.balanceOf(mutatetokenaddress).call()
             apoolBalance = BigNumber(apoolBalance).shiftedBy(-ERC20_DECIMALS)
+            apoolBalance = apoolBalance.toFixed(2)
             this.setState({ apoolBalance: apoolBalance.toString() })
             console.log("a Token loaded")
 
@@ -106,9 +107,11 @@ class USD_cPESO extends Component {
             this.setState({ btoken})
             let bTokenBalance = await btoken.methods.balanceOf(this.state.account).call()
             bTokenBalance = BigNumber(bTokenBalance).shiftedBy(-ERC20_DECIMALS)
+            bTokenBalance = bTokenBalance.toFixed(2)
             this.setState({ bTokenBalance: bTokenBalance.toString() })
             let bpoolBalance = await btoken.methods.balanceOf(mutatetokenaddress).call()
             bpoolBalance = BigNumber(bpoolBalance).shiftedBy(-ERC20_DECIMALS)
+            bpoolBalance = bpoolBalance.toFixed(2)
             this.setState({ bpoolBalance: bpoolBalance.toString() })
             console.log("b Token loaded")
 

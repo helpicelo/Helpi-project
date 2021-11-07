@@ -8,6 +8,7 @@ import Tokenaddress from '../../tokenaddress.json';
 // token contracts
 import ERCToken from '../../abis/IERC20Token.json' //ERC20
 import MutateToken from '../../abis/MutateToken.json'
+import Exchange from '../../abis/ExchangeContract.json'
 
 // components
 import Navbar from './../Navbar'
@@ -26,7 +27,7 @@ let b_token = "CELO"
 
 //contracts address
 const ERC20_DECIMALS = 18
-const contractaddress = Tokenaddress.MUTATE
+const contractaddress = Tokenaddress.BUY_SELL
 const aTokenaddress = Tokenaddress.INRT
 const bTokenaddress = Tokenaddress.CELO
 
@@ -46,7 +47,7 @@ class USD_INR extends Component {
       bTokenBalance: '0',
       apoolBalance: '0',
       celopoolBalance: '0',
-      exchangerate: '75',
+      exchangerate: '491',
       amount: '0',
       loading: true
     }
@@ -84,7 +85,7 @@ class USD_INR extends Component {
 
             //contract = new kit.web3.eth.Contract(marketplaceAbi, MPContractAddress)
             // tokenswitch address
-            const contract = new kit.web3.eth.Contract(MutateToken.abi, contractaddress)
+            const contract = new kit.web3.eth.Contract(Exchange.abi, contractaddress)
             this.setState({ contract })
             /*let exchangerate = await tokenSwitch.methods.exchangerate().call()
             this.setState({ exchangerate: exchangerate.toString() })*/
@@ -135,28 +136,36 @@ class USD_INR extends Component {
   }
 
   // Function sections
-  // USDT(a) - cPESO(b)
-  /*a_b = (ato, aamount) => {
+  // Sell INR(a)
+  buy_a = (aamount) => {
+    let mul
     this.setState({ loading: true})
     aamount = BigNumber(aamount).shiftedBy(ERC20_DECIMALS)
     let new_exchangerate = BigNumber(this.state.exchangerate).shiftedBy(2)
-    this.state.atoken.methods.approve(this.state.mutatetoken._address, aamount).send({ from: this.state.account }).on('transactionHash', (hash) => {
-      this.state.mutatetoken.methods.mutate(aTokenaddress, bTokenaddress, ato, aamount, new_exchangerate, true).send({ from: this.state.account }).on('transactionHash', (hash) => {
+    if(this.state.exchangerate > 0){
+        let mul = false
+    }else{ mul = true }
+    this.state.btoken.methods.approve(this.state.contract._address, aamount).send({ from: this.state.account }).on('transactionHash', (hash) => {
+      this.state.contract.methods.buyToken(aTokenaddress, bTokenaddress, aamount, new_exchangerate, mul).send({ from: this.state.account }).on('transactionHash', (hash) => {
         this.setState({ loading: false})
       })
     })
   }
 
-  b_a = (bto, bamount) => {
+  sell_a = (bamount) => {
+    let mul
     this.setState({ loading: true})
     bamount = BigNumber(bamount).shiftedBy(ERC20_DECIMALS)
     let new_exchangerate = BigNumber(this.state.exchangerate).shiftedBy(2)
-    this.state.btoken.methods.approve(this.state.mutatetoken._address, bamount).send({ from: this.state.account }).on('transactionHash', (hash) => {
-      this.state.mutatetoken.methods.mutate(bTokenaddress, aTokenaddress, bto, bamount, new_exchangerate, false).send({ from: this.state.account }).on('transactionHash', (hash) => {
+    if(this.state.exchangerate > 0){
+        let mul = false
+    }else{ mul = true }
+    this.state.atoken.methods.approve(this.state.contract._address, bamount).send({ from: this.state.account }).on('transactionHash', (hash) => {
+      this.state.contract.methods.sellToken(bTokenaddress, aTokenaddress, bamount, new_exchangerate, mul).send({ from: this.state.account }).on('transactionHash', (hash) => {
         this.setState({ loading: false})
       })
     })
-  }*/
+  }
 
 
 
@@ -173,8 +182,8 @@ class USD_INR extends Component {
             apoolBalance = {this.state.apoolBalance}
             bpoolBalance = {this.state.bpoolBalance}
             exchangerate = {this.state.exchangerate}
-            a_b = {this.a_b}
-            b_a = {this.b_a}
+            buy_a = {this.buy_a}
+            sell_a = {this.sell_a}
 
         />
     }

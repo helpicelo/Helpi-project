@@ -30,18 +30,16 @@ class Main extends Component {
 
         <div className="card mb-4" onSubmit={(event) => {
                 event.preventDefault()
-                let ato
                 let aamount
-                ato = this.ato.value
                 aamount = this.ainput.value.toString()
-                this.props.a_b(ato, aamount)
+                this.props.buy_a(aamount)
           }}>
           <div className="card-body">
 
             <form className="mb-3" >
               <div>
                 <h5 className="card-title"><b> Buy {(this.props.a)}</b></h5>
-                <label className="float-left text-success"><b> Buy Exchange Rate {(this.props.exchangerate)}</b></label>
+                <label className="float-left text-success"><b> Buy Exchange Rate: {(this.props.exchangerate)} {this.props.a}/{this.props.b}</b></label>
                 <span className="float-right text-muted">
                   Balance: {(this.props.bTokenBalance).toString()} {(this.props.b)}
                 </span>
@@ -75,11 +73,11 @@ class Main extends Component {
                 let bamount
                 bto = this.bto.value
                 bamount = this.binput.value.toString()
-                this.props.b_a(bto, bamount)
+                this.props.sell_a(bamount)
           }}>
               <div>
                 <h5 className="card-title"><b>Sell {this.props.a}</b></h5>
-                <label className="float-left text-success"><b>Sell Exchange Rate {this.props.a}</b></label>
+                <label className="float-left text-success"><b>Sell Exchange Rate: {this.props.exchangerate} {this.props.a}/{this.props.b}</b></label>
                 <span className="float-right text-muted">
                   Balance: {(this.props.aTokenBalance).toString()} {this.props.a}
                 </span>
@@ -93,7 +91,7 @@ class Main extends Component {
                   required />
                 <div className="input-group-append">
                   <div className="input-group-text">
-                    &nbsp;&nbsp; {(this.props.b)}
+                    &nbsp;&nbsp; {(this.props.a)}
                   </div>
                 </div>
               </div>

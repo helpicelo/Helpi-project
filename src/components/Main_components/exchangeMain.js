@@ -39,7 +39,7 @@ class Main extends Component {
             <form className="mb-3" >
               <div>
                 <h5 className="card-title"><b> Buy {(this.props.a)}</b></h5>
-                <label className="float-left text-success"><b> Buy Exchange Rate: {(this.props.exchangerate)} {this.props.a}/{this.props.b}</b></label>
+                <span className="float-left text-secondary">Exchange Rate : {(this.props.exchangerate)} {this.props.a}/{this.props.b}</span>
                 <span className="float-right text-muted">
                   Balance: {(this.props.bTokenBalance).toString()} {(this.props.b)}
                 </span>
@@ -58,7 +58,7 @@ class Main extends Component {
                   </div>
                 </div>
               </div>
-              <button type="submit" className="btn btn-primary btn-block btn-lg">BUY!</button>
+              <button type="submit" className="btn btn-info btn-block btn-lg">BUY!</button>
             </form>
           </div>
         </div>
@@ -77,7 +77,7 @@ class Main extends Component {
           }}>
               <div>
                 <h5 className="card-title"><b>Sell {this.props.a}</b></h5>
-                <label className="float-left text-success"><b>Sell Exchange Rate: {this.props.exchangerate} {this.props.a}/{this.props.b}</b></label>
+                <span className="float-left text-secondary">Exchange Rate : {(this.props.exchangerate)} {this.props.a}/{this.props.b}</span>
                 <span className="float-right text-muted">
                   Balance: {(this.props.aTokenBalance).toString()} {this.props.a}
                 </span>
@@ -95,7 +95,7 @@ class Main extends Component {
                   </div>
                 </div>
               </div>
-              <button type="submit" className="btn btn-primary btn-block btn-lg">SELL!</button>
+              <button type="submit" className="btn btn-info btn-block btn-lg">SELL!</button>
             </form>
           </div>
         </div>

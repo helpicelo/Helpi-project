@@ -73,7 +73,7 @@ class Main extends Component {
                   </div>
                 </div>
               </div>
-              <button type="submit" className="btn btn-primary btn-block btn-lg">SEND!</button>
+              <button type="submit" className="btn btn-info btn-block btn-lg">SEND!</button>
             </form>
           </div>
         </div>
@@ -117,7 +117,7 @@ class Main extends Component {
                   </div>
                 </div>
               </div>
-              <button type="submit" className="btn btn-primary btn-block btn-lg">SEND!</button>
+              <button type="submit" className="btn btn-info btn-block btn-lg">SEND!</button>
             </form>
           </div>
         </div>

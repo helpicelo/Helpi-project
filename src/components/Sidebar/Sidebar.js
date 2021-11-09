@@ -89,7 +89,7 @@ export default function Sidebar() {
                 <Link
                   className={
                     "text-xs uppercase py-3 font-bold block p-4 rounded-l-full " +
-                    (window.location.href.indexOf("/app/dashboard") !== -1
+                    (window.location.href.indexOf("/app/vesting") !== -1
                       ? "text-secondary bg-white hover:text-primary-600"
                       : "text-white hover:bg-primary-400")
                   }
@@ -98,7 +98,7 @@ export default function Sidebar() {
                   <i
                     className={
                       "fas fa-clock mr-2 text-sm " +
-                      (window.location.href.indexOf("/app/dashboard") !== -1
+                      (window.location.href.indexOf("/app/vesting") !== -1
                         ? "opacity-75"
                         : "text-white")
                     }
@@ -111,16 +111,16 @@ export default function Sidebar() {
                 <Link
                   className={
                     "text-xs uppercase py-3 font-bold block p-4 rounded-l-full " +
-                    (window.location.href.indexOf("/app/settings") !== -1
+                    (window.location.href.indexOf("/app/stacking") !== -1
                       ? "text-secondary bg-white hover:text-primary-600"
                       : "text-white hover:text-secondary")
                   }
-                  to="/app/staking"
+                  to="/app/stacking"
                 >
                   <i
                     className={
                       "fas fa-boxes mr-2 text-sm " +
-                      (window.location.href.indexOf("/app/settings") !== -1
+                      (window.location.href.indexOf("/app/stacking") !== -1
                         ? "opacity-75"
                         : "text-white")
                     }
@@ -133,7 +133,7 @@ export default function Sidebar() {
                 <Link
                   className={
                     "text-xs uppercase py-3 font-bold block p-4 rounded-l-full " +
-                    (window.location.href.indexOf("/app/tables") !== -1
+                    (window.location.href.indexOf("/app/transfer") !== -1
                       ? "text-secondary bg-white hover:text-primary-600"
                       : "text-white hover:bg-primary-400")
                   }
@@ -142,7 +142,7 @@ export default function Sidebar() {
                   <i
                     className={
                       "fas fa-exchange-alt mr-2 text-sm " +
-                      (window.location.href.indexOf("/app/tables") !== -1
+                      (window.location.href.indexOf("/app/transfer") !== -1
                         ? "opacity-75"
                         : "text-white")
                     }

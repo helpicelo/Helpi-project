@@ -14,6 +14,7 @@ import Auth from "layouts/Auth.js";
 
 import Landing from "views/Landing.js";
 import Profile from "views/Profile.js";
+import Contribute from "views/Contribute.js";
 
 ReactDOM.render(
   <BrowserRouter>
@@ -21,10 +22,10 @@ ReactDOM.render(
       {/* add routes with layouts */}
       <Route path="/app" component={Admin} />
       <Route path="/auth" component={Auth} />
+      <Route path="/contribute" component={Contribute} />
       {/* add routes without layouts */}
       <Route path="/" exact component={Landing} />
       <Route path="/profile" exact component={Profile} />
-
 
       {/* add redirect for first page */}
       <Redirect from="*" to="/" />

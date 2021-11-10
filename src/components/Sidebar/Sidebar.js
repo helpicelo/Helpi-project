@@ -150,28 +150,106 @@ export default function Sidebar() {
                   Fund Transfer
                 </Link>
               </li>
-{/* 
               <li className="items-center">
                 <Link
                   className={
-                    "text-xs uppercase py-3 font-bold block rounded-l-full p-4 " +
-                    (window.location.href.indexOf("/app/maps") !== -1
+                    "text-xs py-3 ml-4 font-bold block p-4 rounded-l-full " +
+                    (window.location.href.indexOf("/app/usd-inr") !== -1
                       ? "text-secondary bg-white hover:text-primary-600"
                       : "text-white hover:bg-primary-400")
                   }
-                  to="/app/maps"
+                  to="/app/usd-inr"
+                >
+                  USD - INRT
+                </Link>
+              </li>
+              <li className="items-center">
+                <Link
+                  className={
+                    "text-xs py-3 ml-4 font-bold block p-4 rounded-l-full " +
+                    (window.location.href.indexOf("/app/inr-peso") !== -1
+                      ? "text-secondary bg-white hover:text-primary-600"
+                      : "text-white hover:bg-primary-400")
+                  }
+                  to="/app/inr-peso"
+                >
+                  INRT - cPESO
+                </Link>
+              </li>
+              <li className="items-center">
+                <Link
+                  className={
+                    "text-xs py-3 ml-4 font-bold block p-4 rounded-l-full " +
+                    (window.location.href.indexOf("/app/usd-peso") !== -1
+                      ? "text-secondary bg-white hover:text-primary-600"
+                      : "text-white hover:bg-primary-400")
+                  }
+                  to="/app/usd-peso"
+                >
+                  USD - cPESO
+                </Link>
+              </li>
+
+              <li className="items-center">
+                <Link
+                  className={
+                    "text-xs uppercase py-3 font-bold block p-4 rounded-l-full " +
+                    (window.location.href.indexOf("/app/transfer") !== -1
+                      ? "text-secondary bg-white hover:text-primary-600"
+                      : "text-white hover:bg-primary-400")
+                  }
+                  to="/app/transfer"
                 >
                   <i
                     className={
-                      "fas fa-map-marked mr-2 text-sm " +
-                      (window.location.href.indexOf("/app/maps") !== -1
+                      "fas fa-exchange-alt mr-2 text-sm " +
+                      (window.location.href.indexOf("/app/transfer") !== -1
                         ? "opacity-75"
                         : "text-white")
                     }
                   ></i>{" "}
-                  Maps
+                  Buy - Sell
                 </Link>
-              </li> */}
+              </li>
+              <li className="items-center">
+                <Link
+                  className={
+                    "text-xs py-3 ml-4 font-bold block p-4 rounded-l-full " +
+                    (window.location.href.indexOf("/app/buy-hUSD") !== -1
+                      ? "text-secondary bg-white hover:text-primary-600"
+                      : "text-white hover:bg-primary-400")
+                  }
+                  to="/app/buy-hUSD"
+                >
+                  hUSD
+                </Link>
+              </li>
+              <li className="items-center">
+                <Link
+                  className={
+                    "text-xs  py-3 ml-4 font-bold block p-4 rounded-l-full " +
+                    (window.location.href.indexOf("/app/buy-hINR") !== -1
+                      ? "text-secondary bg-white hover:text-primary-600"
+                      : "text-white hover:bg-primary-400")
+                  }
+                  to="/app/buy-hINR"
+                >
+                  hINRT
+                </Link>
+              </li>
+              <li className="items-center">
+                <Link
+                  className={
+                    "text-xs py-3 ml-4 font-bold block p-4 rounded-l-full " +
+                    (window.location.href.indexOf("/app/buy-hPESO") !== -1
+                      ? "text-secondary bg-white hover:text-primary-600"
+                      : "text-white hover:bg-primary-400")
+                  }
+                  to="/app/buy-hPESO"
+                >
+                  hPESO
+                </Link>
+              </li>
             </ul>
 
             {/* Divider */}

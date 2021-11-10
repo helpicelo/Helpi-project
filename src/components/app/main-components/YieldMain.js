@@ -7,13 +7,13 @@ class YieldMain extends Component {
       <div id="content" className="mt-3">
 
         <div class="d-grid">
-           <p type="button" class="btn btn-info btn-lg btn-block">
-           Stake <i>Celo</i> or <i>cUSD</i> and earn <i>Helpi Tokens</i> as a reward according to the Return rate. To earn more
-           reward, stake the tokens for longer durations and keep contributing to the network every 24 hours or less through the <b>Contribute</b> Tab.
-           </p>
+          <p type="button" class="btn btn-info btn-lg btn-block">
+            Stake <i>Celo</i> or <i>cUSD</i> and earn <i>Helpi Tokens</i> as a reward according to the Return rate. To earn more
+            reward, stake the tokens for longer durations and keep contributing to the network every 24 hours or less through the <b>Contribute</b> Tab.
+          </p>
         </div>
 
-        <table className="table table-borderless text-secondary text-center">
+        <table className="table-auto w-full text-muted text-center">
           <thead>
             <tr>
               <th scope="col"><i>Staked Celo</i></th>
@@ -36,42 +36,43 @@ class YieldMain extends Component {
           <div className="card-body">
 
             <form className="mb-3" onSubmit={(event) => {
-                event.preventDefault()
-                let amount
-                amount = this.celoamount.value.toString()
-                this.props.stakeTokens(0, amount)
-              }}>
-              <div>
-                <h4 className="card-title">Stake Celo Tokens</h4>
-                <label className="float-left text-success font-weight-bold text-sm">APR: {(this.props.celoAPR)}%</label>
-                <span className="float-right text-muted">
-                  Wallet Balance: {(this.props.celoTokenBalance)} CELO
-                </span>
-              </div>
+              event.preventDefault()
+              let amount
+              amount = this.celoamount.value.toString()
+              this.props.stakeTokens(0, amount)
+            }}>
+              <h4 className="text-2xl">Stake Celo Tokens</h4>
               <div className="input-group mb-4">
-                <input
-                  type="text"
-                  ref={(input) => { this.celoamount = input }}
-                  className="form-control form-control-lg"
-                  placeholder="0"
-                  required />
-                <div className="input-group-append">
-                  <div className="input-group-text">
-                    &nbsp;&nbsp;&nbsp; Celo
+                <label htmlFor="" className="flex flex-col">
+                  <div className="flex justify-between">
+                    <span className="text-gray-700">
+                      Wallet Balance: {(this.props.celoTokenBalance)} CELO
+                    </span>
+                    <span className="">APR: {(this.props.celoAPR)}%</span>
                   </div>
-                </div>
+                  <div className="flex">
+                    <input
+                      type="text"
+                      ref={(input) => { this.celoamount = input }}
+                      className="flex-grow"
+                      placeholder="0"
+                      required />
+                    <div className="bg-gray-100 flex items-center justify-center border border-black inline-block px-4 relative" style={{ left: "-1px" }}>
+                      Celo
+                    </div>
+                  </div>
+                </label>
               </div>
-              <button type="submit" className="btn btn-info btn-block btn-lg">STAKE CELO!</button>
+              <button type="submit" className="block-inline bg-blueGray-800 text-white text-center active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150">STAKE CELO!</button>
             </form>
             <button
               type="submit"
-              className="btn btn-link btn-block btn-sm"
-              onClick={(event) => {
+              className="my-4 block-inline bg-primary text-white text-center active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150" onClick={(event) => {
                 event.preventDefault()
                 this.props.unstakeTokens(0)
               }}>
-                UN-STAKE CELO...
-              </button>
+              UN-STAKE CELO...
+            </button>
           </div>
         </div>
 
@@ -80,42 +81,43 @@ class YieldMain extends Component {
           <div className="card-body">
 
             <form className="mb-3" onSubmit={(event) => {
-                event.preventDefault()
-                let amount
-                amount = this.cusdamount.value.toString()
-                this.props.stakeTokens(1, amount)
-              }}>
-              <div>
-                <h4 className="card-title">Stake cUSD Tokens</h4>
-                <label className="float-left text-success font-weight-bold">APR: {(this.props.cusdAPR)}% </label>
-                <span className="float-right text-muted">
-                  Balance: {(this.props.cusdTokenBalance)} cUSD
-                </span>
-              </div>
+              event.preventDefault()
+              let amount
+              amount = this.cusdamount.value.toString()
+              this.props.stakeTokens(1, amount)
+            }}>
+              <h4 className="text-2xl">Stake cUSD Tokens</h4>
               <div className="input-group mb-4">
-                <input
-                  type="text"
-                  ref={(input) => { this.cusdamount = input }}
-                  className="form-control form-control-lg"
-                  placeholder="0"
-                  required />
-                <div className="input-group-append">
-                  <div className="input-group-text">
-                    &nbsp;&nbsp;&nbsp; cUSD
+                <label htmlFor="" className="flex flex-col">
+                  <div className="flex justify-between">
+                    <span className="text-gray-700">
+                      Balance: {(this.props.cusdTokenBalance)} cUSD
+                    </span>
+                    <span className="float-left text-success font-weight-bold">APR: {(this.props.cusdAPR)}% </span>
                   </div>
-                </div>
+                  <div className="flex">
+                    <input
+                      type="text"
+                      ref={(input) => { this.cusdamount = input }}
+                      className="flex-grow"
+                      placeholder="0"
+                      required />
+                    <div className="bg-gray-100 flex items-center justify-center border border-black inline-block px-4 relative" style={{ left: "-1px" }}>
+                      cUSD
+                    </div>
+                  </div>
+                </label>
               </div>
-              <button type="submit" className="btn btn-info btn-block btn-lg">STAKE cUSD!</button>
+              <button type="submit" className="block-inline bg-blueGray-800 text-white text-center active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150">STAKE cUSD!</button>
             </form>
             <button
               type="submit"
-              className="btn btn-link btn-block btn-sm"
-              onClick={(event) => {
+              className="my-4 block-inline bg-primary text-white text-center active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150" onClick={(event) => {
                 event.preventDefault()
                 this.props.unstakeTokens(1)
               }}>
-                UN-STAKE cUSD...
-              </button>
+              UN-STAKE cUSD...
+            </button>
           </div>
         </div>
 

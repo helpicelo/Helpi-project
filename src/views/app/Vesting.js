@@ -8,8 +8,6 @@ import Tokenaddress from '../../tokenaddress.json';
 import USDToken from 'abis/USDToken.json'
 import INRToken from 'abis/INRToken.json'
 import HelpiToken from 'abis/HELPIToken.json'
-import CELOToken from 'abis/IERC20Token.json'
-import cUSDToken from 'abis/IERC20Token.json'
 import stakingcontract from 'abis/StakingContract.json'
 
 // components

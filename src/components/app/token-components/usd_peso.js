@@ -174,7 +174,7 @@ class USD_cPESO extends Component {
             <main role="main" className="col-lg-12 ml-auto mr-auto" style={{ maxWidth: '600px' }}>
               <div className="content mr-auto ml-auto">
                  <div class="d-grid">
-                 <button type="button" class="btn btn-outline-danger btn-lg btn-block">{this.state.a}-{this.state.b} POOL</button>
+                 <div className="border inline-block border-primary p-2">{this.state.a}-{this.state.b} POOL</div>
                  </div>
 
                 {content}

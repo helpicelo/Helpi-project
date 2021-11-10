@@ -182,7 +182,7 @@ class USD_INR extends Component {
             <main role="main" className="col-lg-12 ml-auto mr-auto" style={{ maxWidth: '600px' }}>
               <div className="content mr-auto ml-auto">
                  <div class="d-grid">
-                 <button type="button" class="btn btn-outline-danger btn-lg btn-block">BUY/SELL {this.state.a}</button>
+                 <div className="border inline-block border-primary p-2">BUY/SELL {this.state.a}</div>
                  </div>
 
                 {content}

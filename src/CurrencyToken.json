@@ -1,0 +1,20 @@
+{
+  "hUSD":
+  {
+    "symbol": "USD",
+    "address": "0x0beea6470bb0ba16191ad46d7e36f13fb01f554d",
+    "exchange_rate": 1
+  },
+  "hINR":
+  {
+    "symbol": "INR",
+    "address": "0x8c5e092683918372657c87168ea32c1703f39389",
+    "exchange_rate": 74.98
+  },
+  "hPESO":
+  {
+    "symbol": "COP",
+    "address": "0xCF765d67b27B2a32d86ea5920167F9677E1b578b",
+    "exchange_rate": 3772.52
+  }
+}

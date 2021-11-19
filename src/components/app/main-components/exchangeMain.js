@@ -5,112 +5,111 @@ class Main extends Component {
 
   render() {
     return (
-      <div id="content" className="mt-3">
+      <>
 
-        <div class="d-grid">
-          <p type="button" class="btn btn-info btn-lg btn-block">
-            Buy or Sell using your Tokens in your wallet
-          </p>
+        <div>
+            <h1 class="text-black text-bold text-lg text-xl"><b>EXCHANGE TOKENS</b></h1>
         </div>
 
-        <table className="table-auto w-full text-muted text-center">
-          <thead>
-            <tr>
-              <th scope="col">{this.props.a} Reserve</th>
-              <th scope="col">{this.props.b} Reserve</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>{(this.props.apoolBalance)} {(this.props.a)}</td>
-              <td>{(this.props.bpoolBalance)} {(this.props.b)}</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="container mx-auto">
+            <div class="flex m-4 bg-emerald-200 border-2 shadow-lg border-green-500 p-4 rounded-lg opacity-50">
+            <p class="text-black text-semibold text-justified text-md">
+                Buy or Sell using your Tokens in your wallet
+            </p>
+            </div>
+        </div>
 
-        <div className="card mb-4" onSubmit={(event) => {
-          event.preventDefault()
-          let ato
-          let aamount
-          ato = this.ato.value
-          aamount = this.ainput.value.toString()
-          this.props.a_b(ato, aamount)
-        }}>
-          <div className="card-body">
+        <div class="container mx-auto">
+            <div class="flex m-4">
+                <div class="flex-1 bg-yellow-400 m-4 p-4 shadow-lg rounded-lg">
+                <h4 class="text-white text-center text-bold text-lg">{this.props.a} Reserve</h4>
+                <p class="text-white text-center text-md">{(this.props.apoolBalance)} {(this.props.a)}</p>
+                </div>
+                <div class="flex-1 bg-blue-400 m-4 p-4 shadow-lg rounded-lg">
+                <h4 class="text-white text-center text-bold text-lg">{this.props.b} Reserve</h4>
+                <p class="text-white text-center text-md">{(this.props.bpoolBalance)} {(this.props.b)}</p>
+                </div>
 
-            <form className="mb-3" >
-              <h5 className="card-title"><b> Buy {(this.props.a)}</b></h5>
-              <div className="input-group mb-4">
-                <label htmlFor="" className="flex flex-col">
+            </div>
+        </div>
 
-                  <div className="flex justify-between">
-                    <span className="float-left text-success"><b> Buy Exchange Rate {(this.props.exchangerate)}</b></span>
-                    <span className="float-right text-muted">
-                      Balance: {(this.props.bTokenBalance).toString()} {(this.props.b)}
-                    </span>
-                  </div>
-                  <div className="flex">
-                    <input
-                      id="amountvalue"
-                      type="text"
-                      ref={(input) => { this.ainput = input }}
-                      className="flex-grow"
-                      placeholder="0"
-                      required />
-                    <div className="bg-gray-100 flex items-center justify-center border border-black inline-block px-4 relative" style={{ left: "-1px" }}>
-                      &nbsp; &nbsp; {(this.props.a)}
-                    </div>
-                  </div>
-                </label>
-              </div>
-              <button type="submit" className="block-inline bg-blueGray-800 text-white text-center active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150">BUY!</button>
-            </form>
+        <div class="flex flex-col mx-auto bg-white shadow-lg rounded-xl border-2 border-black-600 mb-6">
+          <div class="flex w-full">
+          <h1 class="text-black text-bold text-lg m-4 mb-2"><b> Buy {(this.props.a)}</b></h1>
           </div>
-        </div >
 
-        <div className="card mb-4" >
+          <div class="flex flex-row m-2 mb-0">
+            <div class="flex-1 w-1/2">
+              <p class="text-black float-left text-semibold text-lg m-4">Wallet Balance: {this.props.bTokenBalance} {this.props.b}</p>
+            </div>
+            <div class="flex-1 w-1/2 ">
+              <p class="text-black float-right text-bold text-lg m-4"><b>Exchange Rate: {this.props.exchangerate} {this.props.a} / {this.props.b}</b></p>
+            </div>
+          </div>
 
-          <div className="card-body">
-
-            <form className="mb-3" onSubmit={(event) => {
-              event.preventDefault()
-              let bto
-              let bamount
-              bto = this.bto.value
-              bamount = this.binput.value.toString()
-              this.props.b_a(bto, bamount)
-            }}>
-              <div>
-                <h5 className="card-title"><b>Sell {this.props.a}</b></h5>
-              </div>
-              <div className="input-group mb-4">
-                <label htmlFor="" className="flex flex-col">
-
-                  <div className="flex justify-between">
-                    <label className="float-left text-success"><b>Sell Exchange Rate {this.props.a}</b></label>
-                    <span className="float-right text-muted">
-                      Balance: {(this.props.aTokenBalance).toString()} {this.props.a}
-                    </span>
-                  </div>
-                  <div className="flex">
-                    <input
-                      type="text"
-                      ref={(input) => { this.binput = input }}
-                      className="flex-grow"
-                      placeholder="0"
-                      required />
-                    <div className="bg-gray-100 flex items-center justify-center border border-black inline-block px-4 relative" style={{ left: "-1px" }}>
-                      &nbsp;&nbsp; {(this.props.b)}
+          <div class="flex flex-col m-1">
+            <form className="mb-3" onSubmit={(event) =>
+                {
+                event.preventDefault()
+                let aamount
+                aamount = this.ainput.value.toString()
+                this.props.a_b(aamount)
+                }}>
+                <div class="flex flex-row m-4 mt-1 shadow-lg">
+                    <div class="flex w-full">
+                    <input type="text" ref={(input) => { this.ainput = input }} className="flex-grow float-left" placeholder="Buying Quantity" required />
                     </div>
-                  </div>
-                </label>
-              </div>
-              <button type="submit" className="block-inline bg-blueGray-800 text-white text-center active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150">SELL!</button>
+                    <div class="flex-none bg-red-400 items-center justify-center border border-black inline-block p-3">
+                      <p class="text-white">{this.props.a}</p>
+                    </div>
+                </div>
+                <div class="flex m-4 mb-2">
+                    <button type="submit" className="block-inline bg-blueGray-800 text-white text-center active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow-lg hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full">BUY {this.props.a}</button>
+                </div>
             </form>
           </div>
         </div>
 
-      </div >
+
+        <div class="flex flex-col mx-auto bg-white shadow-lg rounded-xl border-2 border-black-600 mt-6">
+          <div class="flex w-full">
+          <h1 class="text-black text-bold text-lg m-4 mb-2"><b> SELL {(this.props.a)}</b></h1>
+          </div>
+
+          <div class="flex flex-row m-2 mb-0">
+            <div class="flex-1 w-1/2">
+              <p class="text-black float-left text-semibold text-lg m-4">Wallet Balance: {this.props.aTokenBalance} {this.props.a}</p>
+            </div>
+            <div class="flex-1 w-1/2 ">
+              <p class="text-black float-right text-bold text-lg m-4"><b>Exchange Rate: {this.props.exchangerate} {this.props.a} / {this.props.b}</b></p>
+            </div>
+          </div>
+
+          <div class="flex flex-col m-1">
+            <form className="mb-3" onSubmit={(event) =>
+                {
+                event.preventDefault()
+                let bamount
+                bamount = this.binput.value.toString()
+                this.props.b_a(bamount)
+                }}>
+                <div class="flex flex-row m-4 mt-1 shadow-lg">
+                    <div class="flex w-full">
+                    <input type="text" ref={(input) => { this.binput = input }} className="flex-grow float-left" placeholder="Selling Quantity" required />
+                    </div>
+                    <div class="flex-none bg-red-400 items-center justify-center border border-black inline-block p-3">
+                      <p class="text-white">{this.props.a}</p>
+                    </div>
+                </div>
+                <div class="flex m-4 mb-2">
+                    <button type="submit" className="block-inline bg-blueGray-800 text-white text-center active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow-lg hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full">SELL {this.props.a}</button>
+                </div>
+            </form>
+          </div>
+        </div>
+
+
+      </>
     );
   }
 }

@@ -1,9 +1,16 @@
 import React, { Component } from 'react'
-import { Route, Link } from 'react-router-dom';
+import {Route, Link} from 'react-router-dom';
 import Web3 from 'web3'
 import { newKitFromWeb3 } from '@celo/contractkit';
 import BigNumber from "bignumber.js";
 import Tokenaddress from 'tokenaddress.json';
+import Currency from 'CurrencyToken.json';
+
+//Importing Utilities
+import {connectWallet} from '../../../Utilis/connectWallet.js';
+import {loadContract} from '../../../Utilis/ContractUtilis.js';
+import {formatBalance} from '../../../Utilis/ContractUtilis.js';
+import {loadTokens} from '../../../Utilis/ContractUtilis.js';
 
 // token contracts
 import ERCToken from 'abis/IERC20Token.json' //ERC20
@@ -15,174 +22,197 @@ import TokenMain from '../main-components/Main'
 //variables
 let kit
 //currencies to convert with currency code
-let a_currency = "INR"
+let a_currency = "USD"
 let b_currency = "COP"
 // tokens for that currencies
-let a_token = "INRT"
-let b_token = "hPESO"
+//let a_token = "hUSD"
+//let b_token = "hPESO"
 
 //contracts address
 const ERC20_DECIMALS = 18
 const mutatetokenaddress = Tokenaddress.MUTATE
-const aTokenaddress = Tokenaddress.INRT
+const aTokenaddress = Tokenaddress.USDT
 const bTokenaddress = Tokenaddress.cPESO
 
 
-class INRT_cPESO extends Component {
+class USD_cPESO extends Component {
 
   constructor(props) {
     super(props)
     this.state = {
       account: '0x0',
-      a: a_token,
-      b: b_token,
+      a: "hUSD",
+      b: "hINR",
       atoken: {},
       btoken: {},
+      aTokenaddress: Currency["hUSD"].address,
+      bTokenaddress: Currency["hINR"].address,
       mutatetoken: {},
       aTokenBalance: '0',
       bTokenBalance: '0',
       apoolBalance: '0',
       bpoolBalance: '0',
-      exchangerate: '3756',
+      exchangerate: '74.98',
       loading: true
-    }
+    };
+    this.ahandleChange = this.ahandleChange.bind(this)
+    this.bhandleChange = this.bhandleChange.bind(this)
   }
 
   // This will call the celo blockchain data functions function and load the web3
   async componentWillMount() {
-    await this.connectCeloWallet()
-    await this.getExchangeRate()
+    let accounts = await connectWallet();
+    this.setState({account: accounts})
+    await this.loadingContracts()
+    await this.loadingTokens(this.state.aTokenaddress, this.state.bTokenaddress)
+    //await this.getExchangeRate()
   }
 
   getExchangeRate = async function () {
-    var URL = Tokenaddress.URL + a_currency + "&to=" + b_currency
+    var URL = Tokenaddress.URL + Currency[this.state.a].symbol + "&to=" + Currency[this.state.a].symbol
     const response = await fetch(URL);
     const data = await response.json();
     this.setState({ exchangerate: data.result.toFixed(2) })
   }
 
-  connectCeloWallet = async function () {
-    if (window.celo) {
+  loadingContracts = async function () {
       try {
-        //notification("⚠ Please approve this DApp to use it.")
-        await window.celo.enable()
-        //notificationOff()
-        const web3 = new Web3(window.celo)
-        kit = newKitFromWeb3(web3)
-
-        const accounts = await kit.web3.eth.getAccounts()
-        kit.defaultAccount = accounts[0]
-        this.setState({ account: accounts[0] })
-        //console.log({account})
-
-        this.setState({ loading: false })
-        console.log("Account connected")
+        const web3 = new Web3(window.celo);
+        kit = newKitFromWeb3(web3);
 
         //contract = new kit.web3.eth.Contract(marketplaceAbi, MPContractAddress)
         // tokenswitch address
-        const mutatetoken = new kit.web3.eth.Contract(MutateToken.abi, mutatetokenaddress)
+        const mutatetoken = await loadContract(MutateToken.abi, mutatetokenaddress)
         this.setState({ mutatetoken })
-        /*let exchangerate = await tokenSwitch.methods.exchangerate().call()
-        this.setState({ exchangerate: exchangerate.toString() })*/
         console.log("Mutate Token loaded")
 
-        //USD token contract
-        const atoken = new kit.web3.eth.Contract(ERCToken.abi, aTokenaddress)
-        this.setState({ atoken })
-        console.log("aToken loaded")
-        let aTokenBalance = await atoken.methods.balanceOf(this.state.account).call()
-        aTokenBalance = BigNumber(aTokenBalance).shiftedBy(-ERC20_DECIMALS)
-        aTokenBalance = aTokenBalance.toFixed(2)
-        this.setState({ aTokenBalance: aTokenBalance.toString() })
-        console.log("aTokenbalance loaded")
-        let apoolBalance = await atoken.methods.balanceOf(mutatetokenaddress).call()
-        apoolBalance = BigNumber(apoolBalance).shiftedBy(-ERC20_DECIMALS)
-        apoolBalance = apoolBalance.toFixed(2)
-        this.setState({ apoolBalance: apoolBalance.toString() })
-        console.log("a Token loaded")
-
-        //cPESO Token
-        const btoken = new kit.web3.eth.Contract(ERCToken.abi, bTokenaddress)
-        this.setState({ btoken })
-        let bTokenBalance = await btoken.methods.balanceOf(this.state.account).call()
-        bTokenBalance = BigNumber(bTokenBalance).shiftedBy(-ERC20_DECIMALS)
-        bTokenBalance = bTokenBalance.toFixed(2)
-        this.setState({ bTokenBalance: bTokenBalance.toString() })
-        let bpoolBalance = await btoken.methods.balanceOf(mutatetokenaddress).call()
-        bpoolBalance = BigNumber(bpoolBalance).shiftedBy(-ERC20_DECIMALS)
-        bpoolBalance = bpoolBalance.toFixed(2)
-        this.setState({ bpoolBalance: bpoolBalance.toString() })
-        console.log("b Token loaded")
-
-
-        console.log("All Contracts loaded")
-
       } catch (error) {
-        //notification(`⚠️ ${error}.`)
-        console.log("Error! -  Catch section")
+        console.log("Error! -  Main Contract section")
         console.log({ error })
-        //this.setState({ loading: false })
       }
-    } else {
-      //notification("⚠️ Please install the CeloExtensionWallet.")
-      console.log("Error! - Else section")
-    }
   }
 
-  // Function sections
+  loadingTokens = async function (address_a, address_b) {
+      try {
+        const web3 = new Web3(window.celo);
+        kit = newKitFromWeb3(web3);
+        this.setState({ loading: false })
+
+        let aToken = await loadTokens(address_a, this.state.account, mutatetokenaddress)
+        this.setState({aToken: aToken.contract})
+        this.setState({aTokenBalance: aToken.accountBalance})
+        this.setState({apoolBalance: aToken.contractBalance})
+
+        let bToken = await loadTokens(address_b, this.state.account, mutatetokenaddress)
+        this.setState({bToken: bToken.contract})
+        this.setState({bTokenBalance: bToken.accountBalance})
+        this.setState({bpoolBalance: bToken.contractBalance})
+
+
+      } catch (error) {
+        console.log("Error! -  Token section")
+        console.log({ error })
+      }
+  }
+
+  updateValue = async function (atoken, btoken){
+    console.log(atoken, btoken)
+    this.setState({aTokenaddress: Currency[atoken].address})
+    this.setState({bTokenaddress: Currency[btoken].address})
+    let exchangevalue = Currency[btoken].exchange_rate / Currency[atoken].exchange_rate
+    exchangevalue = exchangevalue.toFixed(2)
+    this.setState({exchangerate: exchangevalue})
+    this.loadingTokens(Currency[atoken].address, Currency[btoken].address)
+
+    console.log("We are in the update function")
+  }
+
+  // Function sections=================================================================================
   // USDT(a) - cPESO(b)
   a_b = (ato, aamount) => {
-    this.setState({ loading: true })
+    this.setState({ loading: true})
     aamount = BigNumber(aamount).shiftedBy(ERC20_DECIMALS)
-    this.state.atoken.methods.approve(this.state.mutatetoken._address, aamount).send({ from: this.state.account }).on('transactionHash', (hash) => {
+    this.state.aToken.methods.approve(this.state.mutatetoken._address, aamount).send({ from: this.state.account }).on('transactionHash', (hash) => {
       this.state.mutatetoken.methods.mutate(aTokenaddress, bTokenaddress, ato, aamount, this.state.exchangerate, true).send({ from: this.state.account }).on('transactionHash', (hash) => {
-        this.setState({ loading: false })
+        this.setState({ loading: false})
       })
     })
   }
 
   b_a = (bto, bamount) => {
-    this.setState({ loading: true })
+    this.setState({ loading: true})
     bamount = BigNumber(bamount).shiftedBy(ERC20_DECIMALS)
-    this.state.btoken.methods.approve(this.state.mutatetoken._address, bamount).send({ from: this.state.account }).on('transactionHash', (hash) => {
-      this.state.mutatetoken.methods.mutate(bTokenaddress, aTokenaddress, bto, bamount, this.state.exchangerate, false).send({ from: this.state.account }).on('transactionHash', (hash) => {
-        this.setState({ loading: false })
+    this.state.aToken.methods.approve(this.state.mutatetoken._address, bamount).send({ from: this.state.account }).on('transactionHash', (hash) => {
+      this.state.mutatetoken.methods.mutate(aTokenaddress, bTokenaddress, bto, bamount, this.state.exchangerate, false).send({ from: this.state.account }).on('transactionHash', (hash) => {
+        this.setState({ loading: false})
       })
     })
   }
 
+  ahandleChange = event => {
+        let a = event.target.value
+        this.setState({a: event.target.value})
+        this.updateValue(event.target.value ,this.state.b)
 
+  }
 
+  bhandleChange = event => {
+        this.setState({b: event.target.value})
+        this.updateValue(this.state.a ,event.target.value)
+
+  }
+
+  //Render section=====================================================================================
   render() {
     let content
-    if (this.state.loading) {
-      content = <p id="loader" className="text-center">Loading...</p>
-    } else {
-      content = <TokenMain
-        a={this.state.a}
-        b={this.state.b}
-        aTokenBalance={this.state.aTokenBalance}
-        bTokenBalance={this.state.bTokenBalance}
-        apoolBalance={this.state.apoolBalance}
-        bpoolBalance={this.state.bpoolBalance}
-        exchangerate={this.state.exchangerate}
-        a_b={this.a_b}
-        b_a={this.b_a}
-      />
+    if(this.state.loading){
+        content = <p id="loader" className="text-center">Loading...</p>
+    }else{
+        content = <TokenMain
+            a = {this.state.a}
+            b = {this.state.b}
+            aTokenBalance = {this.state.aTokenBalance}
+            bTokenBalance = {this.state.bTokenBalance}
+            apoolBalance = {this.state.apoolBalance}
+            bpoolBalance = {this.state.bpoolBalance}
+            exchangerate = {this.state.exchangerate}
+            a_b = {this.a_b}
+            b_a = {this.b_a}
+        />
     }
+    let a =
+    <select class="flex w-1/2 rounded-none text-center text-lg text-white bg-red-400" onChange={this.ahandleChange}>
+        <option class="bg-white text-black" value="hUSD">hUSD</option>
+        <option class="bg-white text-black" value="hINR">hINR</option>
+        <option class="bg-white text-black"value="hPESO">hPESO</option>
+    </select>
+
+    let b =
+    <select class="flex w-1/2 rounded-none text-center text-lg" onChange={this.bhandleChange}>
+        <option value="hINR">hINR</option>
+        <option value="hUSD">hUSD</option>
+        <option value="hPESO">hPESO</option>
+    </select>
     return (
       <div>
         <div className="container-fluid mt-5">
           <div className="row">
-            <main role="main" className="col-lg-12 ml-auto mr-auto" style={{ maxWidth: '600px' }}>
-              <div className="content mr-auto ml-auto">
-                <div class="d-grid">
-                  <div className="border inline-block border-primary p-2">{this.state.a}-{this.state.b} POOL</div>
-                </div>
+            <main role="main" className="col-lg-12 ml-auto mr-auto" style={{ maxWidth: '80%' }}>
+            <div className="">
+            <div>
+              <div class="container mx-auto">
+                <div class="flex flex-row mx-auto mb-6">
+                    <div class="flex w-1/2 mx-auto border-2 border-white-400 shadow-lg rounded-xl">
+                        {a}
+                        {b}
+                    </div>
 
+                </div>
+              </div>
                 {content}
 
               </div>
+            </div>
             </main>
           </div>
         </div>
@@ -191,4 +221,4 @@ class INRT_cPESO extends Component {
   }
 }
 
-export default INRT_cPESO;
+export default USD_cPESO;

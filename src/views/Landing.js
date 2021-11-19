@@ -130,13 +130,16 @@ export default function Landing() {
                   <i className="fas fa-user-friends text-xl"></i>
                 </div>
                 <h3 className="text-3xl mb-2 font-semibold leading-normal">
-                  Working with us is a pleasure
+                  Our Mission
                 </h3>
                 <p className="text-lg font-light leading-relaxed mt-4 mb-4 text-gray-600">
-                  Ex elit esse duis eiusmod amet enim non do nisi enim cillum qui et. Consequat consectetur consectetur consectetur consequat irure.
+                  We are a Decentralized protocol that allows users an easy access to the DeFi space by allowing them
+                  to use fiat-based currencies for day-to-day exchanges and cross-border remittances. The protocol is equiped with
+                  vesting capabilities allowing users to withdraw their rewards in a periodic manner rather than a massive cash-out format.
                 </p>
                 <p className="text-lg font-light leading-relaxed mt-0 mb-4 text-gray-600">
-                  Ea velit fugiat ex labore exercitation quis. Ad ea dolor magna ad enim Lorem Lorem dolor nisi. Exercitation sunt tempor magna do amet ullamco tempor laborum eiusmod aliqua Lorem pariatur enim. 
+                  Our platform also allows users to send money to their families and friends in other countries directly in their
+                  native currency removing the double conversion process and conversion fees.
                 </p>
                 <Link to="/app" className="font-bold text-secondary mt-8">
                   Check Helpi!
@@ -163,12 +166,12 @@ export default function Landing() {
                       ></polygon>
                     </svg>
                     <h4 className="text-xl font-bold text-white">
-                      Top Notch Services
+                      What is Vesting?
                     </h4>
                     <p className="text-md font-light mt-2 text-white">
-                      The Arctic Ocean freezes every winter and much of the
-                      sea-ice then thaws every summer, and that process will
-                      continue whatever happens.
+                      Vesting protocol allows user to claim their rewards in a periodic manner rather than allowing a massive cash-out
+                      in order to prevent big players (aka "Whales") from crashing the Native Helpi token through massive token dumps.
+                      This protects the value of the token and provide stability to the users.
                     </p>
                   </blockquote>
                 </div>

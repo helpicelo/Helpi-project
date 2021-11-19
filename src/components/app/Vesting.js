@@ -5,68 +5,75 @@ class YieldMain extends Component {
 
   render() {
     return (
-      <div id="content" className="mt-3">
+      <>
 
-        <div class="d-grid">
-          <p type="button" class="btn btn-info btn-lg btn-block">
-            Helpi Rewards are locked in the system and can only be <i>Unlocked</i> after every <b>72 Hours</b>. You
-            can only release a fraction of our Locked Helpi Rewards at a time. However You
-            can Redeem Unlocked Reward Tokens into your wallet at any time.
-          </p>
+        <div>
+            <h1 class="text-black text-bold text-lg text-xl"><b>CLAIM REWARDS</b></h1>
         </div>
 
-        <table className="table-auto w-full text-muted text-center">
-          <thead>
-            <tr>
-              <th scope="col"><i>Locked Balance</i></th>
-              <th scope="col"><i>Unlocked Balance</i></th>
-              <th scope="col"><i>Redeemed Balance</i></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><i>{(this.props.lockedBalance)} HLP</i></td>
-              <td><i>{(this.props.releasedBalance)} HLP</i></td>
-              <td><i>{(this.props.redeemedBalance)} HLP</i></td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="container mx-auto">
+            <div class="flex m-4 bg-emerald-200 border-2 shadow-lg border-green-500 p-4 rounded-lg opacity-50">
+            <p class="text-black text-semibold text-justified text-md">
+                Unlock a fraction of the locked rewards every <b>Three Days</b>. You can only claim the unlocked rewards into your account.
+            </p>
+            </div>
+        </div>
 
-        <div className="rounded-2xl border border-primary p-4" >
+        <div class="container mx-auto">
+            <div class="flex m-4">
+                <div class="flex-1 bg-red-400 m-4 p-4 shadow-lg rounded-lg">
+                <h4 class="text-white text-center text-bold text-lg">LOCKED REWARDS</h4>
+                <p class="text-white text-center text-md">{this.props.lockedBalance}</p>
+                </div>
+                <div class="flex-1 bg-blue-400 m-4 p-4 shadow-lg rounded-lg">
+                <h4 class="text-white text-center text-bold text-lg">UNLOCKED REWARDS</h4>
+                <p class="text-white text-center text-md">{this.props.releasedBalance}</p>
+                </div>
+                <div class="flex-1 bg-emerald-400 m-4 p-4 shadow-lg rounded-lg">
+                <h4 class="text-white text-center text-bold text-lg">CLAIMED REWARDS</h4>
+                <p class="text-white text-center text-md">{this.props.redeemedBalance}</p>
+                </div>
+            </div>
+        </div>
 
-          <div className="card-body">
+        <div class="flex flex-col mx-auto bg-white shadow-lg rounded-xl border-2 border-black-600 mb-6">
+          <div class="flex w-full">
+          <h1 class="text-black text-bold text-lg m-4 mb-2"><b>CLAIM REWARDS</b></h1>
+          </div>
 
-            <form className="" onSubmit={(event) => {
-              event.preventDefault()
-              let amount
-              amount = this.redeemamount.value.toString()
-              this.props.redeemToken(amount)
-            }}>
-              <h4 className="text-2xl">Redeem Tokens</h4>
-              <div className="input-group mb-4">
-                <label htmlFor="" className="flex flex-col">
-                  <span className="text-gray-700">
-                    Balance: {(this.props.releasedBalance)} HLP
-                  </span>
-                  <div className="flex">
-                    <input
-                      type="text"
-                      ref={(input) => { this.redeemamount = input }}
-                      className="flex-grow"
-                      placeholder="0"
-                      required />
-                    <div className="bg-gray-100 flex items-center justify-center border border-black inline-block px-4 relative" style={{ left: "-1px" }}>
-                      HLP
+          <div class="flex flex-row m-2 mb-0">
+            <div class="flex-1 w-1/2">
+              <p class="text-black float-left text-semibold text-lg m-4">Unlocked Balance: {this.props.releasedBalance} HLP</p>
+            </div>
+            <div class="flex-1 w-1/2 ">
+              <p class="text-black float-right text-bold text-lg m-4"></p>
+            </div>
+          </div>
+
+          <div class="flex flex-col m-1">
+            <form className="mb-3" onSubmit={(event) =>
+                {
+                event.preventDefault()
+                let amount
+                amount = this.amount.value.toString()
+                this.props.redeemToken(amount)
+                }}>
+                <div class="flex flex-row m-4 mt-1 shadow-lg">
+                    <div class="flex w-full">
+                    <input type="text" ref={(input) => { this.amount = input }} className="flex-grow float-left" placeholder="0" required />
                     </div>
-                  </div>
-                </label>
-              </div>
-              <a type="submit" className="block-inline bg-blueGray-800 text-white text-center active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150">REDEEM HELPI!</a>
+                    <div class="flex-none bg-red-400 items-center justify-center border border-black inline-block p-3">
+                      <p class="text-white">HLP</p>
+                    </div>
+                </div>
+                <div class="flex m-4 mb-2">
+                    <button type="submit" className="block-inline bg-blueGray-800 text-white text-center active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow-lg hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full">CLAIM REWARDS</button>
+                </div>
             </form>
-
           </div>
         </div>
-      </div>
+
+      </>
     );
   }
 }

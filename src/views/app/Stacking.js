@@ -14,6 +14,7 @@ import {loadTokens} from '../../Utilis/ContractUtilis.js';
 import USDToken from 'abis/USDToken.json'
 import INRToken from 'abis/INRToken.json'
 import HelpiToken from 'abis/HELPIToken.json'
+import ERCToken from 'abis/IERC20Token.json'
 import CELOToken from 'abis/IERC20Token.json'
 import cUSDToken from 'abis/IERC20Token.json'
 import stakingcontract from 'abis/StakingContract.json'
@@ -24,8 +25,6 @@ import YieldMain from 'components/app/main-components/YieldMain'
 //contracts address
 const ERC20_DECIMALS = 18
 const yieldfarmingaddress = Tokenaddress.STAKING
-const celoTokenaddress = Tokenaddress.CELO
-const cusdTokenaddress = Tokenaddress.cUSD
 const helpiTokenaddress = Tokenaddress.HELPI
 
 //variables
@@ -37,46 +36,38 @@ class Staking extends Component {
     super(props)
     this.state = {
       account: '0x0',
+      tokenName: "CELO",
       hepliToken: {},
-      celoToken: {},
-      cusdToken: {},
+      Token: {},
       yieldFarming: {},
-      celoTokenBalance: '0',
-      cusdTokenBalance: '0',
+      TokenBalance: '0',
       helpiTokenBalance: '0',
-      celostakingBalance: '0',
-      cusdstakingBalance: '0',
-      celoAPR: '100000',
-      cusdAPR: '100000',
-      apr: '0',
-      test: false,
+      stakingBalance: '0',
+      APR: '100000',
       loading: true
-    }
+    };
+    this.handleClick = this.handleClick.bind(this)
   }
 
-  // This will call the celo blockchain data functions function and load the web3
+
   async componentWillMount() {
     let accounts = await connectWallet();
     this.setState({account: accounts})
-    await this.loadingContracts()
-    await this.loadingTokens()
+    await this.loadingContracts("CELO")
+    await this.loadingTokens("CELO")
   }
 
-  loadingContracts = async function () {
+  loadingContracts = async function (_token) {
+  console.log()
       try {
         const web3 = new Web3(window.celo);
         kit = newKitFromWeb3(web3);
 
-        //contract = new kit.web3.eth.Contract(marketplaceAbi, MPContractAddress)
-        // tokenswitch address
         const yieldFarming = await loadContract(stakingcontract.abi, yieldfarmingaddress)
         this.setState({ yieldFarming })
-        let celostakingBalance = await yieldFarming.methods.balanceOf(celoTokenaddress, this.state.account).call()
-        celostakingBalance = await formatBalance(celostakingBalance)
-        this.setState({ celostakingBalance: celostakingBalance.toString() })
-        let cusdstakingBalance = await yieldFarming.methods.balanceOf(cusdTokenaddress, this.state.account).call()
-        cusdstakingBalance = await formatBalance(cusdstakingBalance)
-        this.setState({ cusdstakingBalance: cusdstakingBalance.toString() })
+        let stakingBalance = await yieldFarming.methods.balanceOf(Tokenaddress[_token], this.state.account).call()
+        stakingBalance = await formatBalance(stakingBalance)
+        this.setState({ stakingBalance: stakingBalance.toString() })
         let testTime = await yieldFarming.methods.lastContribution(this.state.account).call()
         let helpiTokenBalance = await yieldFarming.methods.lockedBalance(this.state.account).call()
         helpiTokenBalance = await formatBalance(helpiTokenBalance)
@@ -84,36 +75,25 @@ class Staking extends Component {
         console.log("Main Contract loaded")
 
       } catch (error) {
-        //notification(`⚠️ ${error}.`)
         console.log("Error! -  Main Contract section")
         console.log({ error })
-        //this.setState({ loading: false })
       }
   }
 
-  loadingTokens = async function () {
+  loadingTokens = async function (_token) {
       try {
         const web3 = new Web3(window.celo);
         kit = newKitFromWeb3(web3);
         this.setState({ loading: false })
 
-        let celoToken = await loadTokens(celoTokenaddress, this.state.account, yieldfarmingaddress)
-        this.setState({celoToken: celoToken.contract})
-        this.setState({celoTokenBalance: celoToken.accountBalance})
-        let celoStakedBalance = celoToken.contractBalance
-        let celoAPR = (0.0000317 * 31540000) / celoStakedBalance
-        celoAPR = celoAPR.toFixed(2)
-        this.setState({ celoAPR: celoAPR.toString() })
-        console.log("Celo Loaded")
-
-        let cusdToken = await loadTokens(cusdTokenaddress, this.state.account, yieldfarmingaddress)
-        this.setState({cusdToken: cusdToken.contract})
-        this.setState({cusdTokenBalance: cusdToken.accountBalance})
-        let cusdStakedBalance = cusdToken.contractBalance
-        let cusdAPR = (0.0000317 * 3154000000) / cusdStakedBalance
-        cusdAPR = cusdAPR.toFixed(2)
-        this.setState({ cusdAPR: cusdAPR.toString() })
-        console.log("cUSD Loaded")
+        let Token = await loadTokens(Tokenaddress[_token], this.state.account, yieldfarmingaddress)
+        this.setState({Token: Token.contract})
+        this.setState({TokenBalance: Token.accountBalance})
+        let StakedBalance = Token.contractBalance
+        let APR = (0.0000317 * 31540000) / StakedBalance
+        APR = APR.toFixed(2)
+        this.setState({ APR: APR.toString() })
+        console.log("Token Loaded")
 
         //helpi token contract
         const helpiToken = await loadContract(HelpiToken.abi, helpiTokenaddress)
@@ -121,10 +101,8 @@ class Staking extends Component {
         console.log("HELPI loaded")
 
       } catch (error) {
-        //notification(`⚠️ ${error}.`)
         console.log("Error! -  Token section")
         console.log({ error })
-        //this.setState({ loading: false })
       }
   }
 
@@ -133,35 +111,18 @@ class Staking extends Component {
   console.log(amount)
     this.setState({ loading: true })
     amount = BigNumber(amount).shiftedBy(ERC20_DECIMALS)
-    if (tokentype == 0) {
-      this.state.celoToken.methods.approve(this.state.yieldFarming._address, amount).send({ from: this.state.account }).on('transactionHash', (hash) => {
-        this.state.yieldFarming.methods.StakeTokens(this.state.celoToken._address, amount).send({ from: this.state.account }).on('transactionHash', (hash) => {
-          this.setState({ loading: false })
-        })
-      })
-    }
-    else {
-      this.state.cusdToken.methods.approve(this.state.yieldFarming._address, amount).send({ from: this.state.account }).on('transactionHash', (hash) => {
-        this.state.yieldFarming.methods.StakeTokens(this.state.cusdToken._address, amount).send({ from: this.state.account }).on('transactionHash', (hash) => {
-          this.setState({ loading: false })
-        })
-      })
-    }
-
+    this.state.Token.methods.approve(this.state.yieldFarming._address, amount).send({ from: this.state.account }).on('transactionHash', (hash) => {
+      this.state.yieldFarming.methods.StakeTokens(this.state.Token._address, amount).send({ from: this.state.account }).on('transactionHash', (hash) => {
+         this.setState({ loading: false })
+       })
+     })
   }
 
   unstakeTokens = (tokentype) => {
-    if (tokentype == 0) {
       this.setState({ loading: true })
-      this.state.yieldFarming.methods.unStakeTokens(celoTokenaddress).send({ from: this.state.account }).on('transactionHash', (hash) => {
+      this.state.yieldFarming.methods.unStakeTokens(Tokenaddress[this.state.tokenName]).send({ from: this.state.account }).on('transactionHash', (hash) => {
         this.setState({ loading: false })
       })
-    } else {
-      this.setState({ loading: true })
-      this.state.yieldFarming.methods.unStakeTokens(cusdTokenaddress).send({ from: this.state.account }).on('transactionHash', (hash) => {
-        this.setState({ loading: false })
-      })
-    }
   }
 
   contribute = () => {
@@ -171,6 +132,13 @@ class Staking extends Component {
     })
   }
 
+  handleClick = event => {
+        let a = event.target.value
+        this.setState({tokenName: event.target.value})
+        console.log("this is a",a)
+        this.loadingContracts(a)
+        this.loadingTokens(a)
+  }
 
 
   render() {
@@ -185,18 +153,24 @@ class Staking extends Component {
       content = <p id="loader" className="text-center">Loading...</p>
     } else {
       content = <YieldMain
-        cusdTokenBalance={this.state.cusdTokenBalance}
-        celoTokenBalance={this.state.celoTokenBalance}
+        tokenName = {this.state.tokenName}
+        TokenBalance={this.state.TokenBalance}
         helpiTokenBalance={this.state.helpiTokenBalance}
-        celoAPR={this.state.celoAPR}
-        cusdAPR={this.state.cusdAPR}
-        celostakingBalance={this.state.celostakingBalance}
-        cusdstakingBalance={this.state.cusdstakingBalance}
+        APR={this.state.APR}
+        stakingBalance={this.state.stakingBalance}
         stakeTokens={this.stakeTokens}
         unstakeTokens={this.unstakeTokens}
         contribute={this.contribute}
       />
     }
+    let a =
+    <button type="submit" value = "CELO" class= {this.state.tokenName === "CELO" ? "block-inline w-1/2 rounded-none text-white text-center text-xl bg-red-400": "block-inline w-1/2 rounded-none text-black text-center text-xl bg-white-400" } onClick={this.handleClick}>
+    Stake Celo
+    </button>
+    let b =
+    <button type="submit" value = "cUSD" class= {this.state.tokenName === "cUSD" ? "block-inline w-1/2 rounded-none text-white text-center text-xl bg-red-400": "block-inline w-1/2 rounded-none text-black text-center text-xl bg-white-400" } onClick={this.handleClick}>
+    Stake cUSD
+    </button>
     return (
       <div>
         <div className="container-fluid mt-5">
@@ -204,6 +178,14 @@ class Staking extends Component {
             <main role="main" className="col-lg-12 ml-auto mr-auto" style={{ maxWidth: '80%' }}>
             <div className="">
             <div>
+                <div class="container mx-auto">
+                <div class="flex flex-row mx-auto mb-6">
+                    <div class="flex w-1/2 mx-auto text-center h-16 border-2 border-white-400 shadow-lg">
+                        {a}
+                        {b}
+                    </div>
+                </div>
+              </div>
 
                 {content}
 

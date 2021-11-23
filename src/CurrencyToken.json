@@ -16,5 +16,17 @@
     "symbol": "COP",
     "address": "0xCF765d67b27B2a32d86ea5920167F9677E1b578b",
     "exchange_rate": 3772.52
+  },
+  "CELO":
+  {
+    "symbol": "CELO",
+    "address": "0xF194afDf50B03e69Bd7D057c1Aa9e10c9954E4C9",
+    "exchange_rate": 5.49
+  },
+  "cUSD":
+  {
+    "symbol": "cUSD",
+    "address": "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1",
+    "exchange_rate": 1
   }
 }

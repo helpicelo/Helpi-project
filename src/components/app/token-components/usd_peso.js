@@ -134,22 +134,12 @@ class USD_cPESO extends Component {
     aamount = BigNumber(aamount).shiftedBy(ERC20_DECIMALS)
     let exchangerate = BigNumber(this.state.exchangerate).shiftedBy(2)
     this.state.aToken.methods.approve(this.state.mutatetoken._address, aamount).send({ from: this.state.account }).on('transactionHash', (hash) => {
-      this.state.mutatetoken.methods.mutate(aTokenaddress, bTokenaddress, ato, aamount,exchangerate, true).send({ from: this.state.account }).on('transactionHash', (hash) => {
+      this.state.mutatetoken.methods.mutate(this.state.aToken._address, this.state.bToken._address, ato, aamount,exchangerate, true).send({ from: this.state.account }).on('transactionHash', (hash) => {
         this.setState({ loading: false})
       })
     })
   }
 
-  b_a = (bto, bamount) => {
-    this.setState({ loading: true})
-    bamount = BigNumber(bamount).shiftedBy(ERC20_DECIMALS)
-    let exchangerate = BigNumber(this.state.exchangerate).shiftedBy(2)
-    this.state.aToken.methods.approve(this.state.mutatetoken._address, bamount).send({ from: this.state.account }).on('transactionHash', (hash) => {
-      this.state.mutatetoken.methods.mutate(aTokenaddress, bTokenaddress, bto, bamount, exchangerate, false).send({ from: this.state.account }).on('transactionHash', (hash) => {
-        this.setState({ loading: false})
-      })
-    })
-  }
 
   ahandleChange = event => {
         let a = event.target.value
@@ -208,7 +198,6 @@ class USD_cPESO extends Component {
                         {a}
                         {b}
                     </div>
-
                 </div>
               </div>
                 {content}

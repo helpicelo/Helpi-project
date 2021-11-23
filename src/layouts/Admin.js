@@ -13,11 +13,9 @@ import Dashboard from "views/app/Dashboard.js";
 import Settings from "views/app/Settings.js";
 import Tables from "views/app/Tables.js";
 import Vesting from "views/app/Vesting";
-import Stacking from "views/app/Stacking";
-import USDPESO from 'components/app/token-components/usd_peso.js'
-import buyUSD from 'components/app/exchange-components/buy_husd.js'
-import buyINR from 'components/app/exchange-components/buy_hinr.js'
-import buyPESO from 'components/app/exchange-components/buy_hpeso.js'
+import Staking from "views/app/Stacking";
+import fundtransfer from 'components/app/token-components/usd_peso.js'
+import buysell from 'components/app/exchange-components/buy_hinr.js'
 import CONTRIBUTE from 'views/Contribute.js'
 
 export default function Admin() {
@@ -33,12 +31,10 @@ export default function Admin() {
           <div className="px-4 md:px-10 mx-auto w-full pt-24 flex-grow">
             <Switch>
               <Route path="/app/vesting" exact component={Vesting} />
-              <Route path="/app/staking" exact component={Stacking} />
-              <Route exact path="/app/fund-transfer" component={USDPESO} />
+              <Route path="/app/staking" exact component={Staking} />
+              <Route exact path="/app/fund-transfer" component={fundtransfer} />
               <Route exact path="/app/contribute" component={CONTRIBUTE} />
-              <Route exact path="/app/buy-hUSD" component={buyUSD} />
-              <Route exact path="/app/buy-hINR" component={buyINR} />
-              <Route exact path="/app/buy-hPESO" component={buyPESO} />
+              <Route exact path="/app/buy-sell" component={buysell} />
 
               {/* examples */}
               <Route path="/app/dashboard" exact component={Dashboard} />

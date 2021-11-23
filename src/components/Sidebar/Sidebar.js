@@ -155,60 +155,21 @@ export default function Sidebar() {
                 <Link
                   className={
                     "text-xs uppercase py-3 font-bold block p-4 rounded-l-full " +
-                    (window.location.href.indexOf("/app/transfer") !== -1
+                    (window.location.href.indexOf("/app/buy-sell") !== -1
                       ? "text-secondary bg-white hover:text-primary-600"
                       : "text-white hover:bg-primary-400")
                   }
-                  to="/app/transfer"
+                  to="/app/buy-sell"
                 >
                   <i
                     className={
                       "fas fa-exchange-alt mr-2 text-sm " +
-                      (window.location.href.indexOf("/app/transfer") !== -1
+                      (window.location.href.indexOf("/app/buy-sell") !== -1
                         ? "opacity-75"
                         : "text-white")
                     }
                   ></i>{" "}
                   Buy - Sell
-                </Link>
-              </li>
-              <li className="items-center">
-                <Link
-                  className={
-                    "text-xs py-3 ml-4 font-bold block p-4 rounded-l-full " +
-                    (window.location.href.indexOf("/app/buy-hUSD") !== -1
-                      ? "text-secondary bg-white hover:text-primary-600"
-                      : "text-white hover:bg-primary-400")
-                  }
-                  to="/app/buy-hUSD"
-                >
-                  hUSD
-                </Link>
-              </li>
-              <li className="items-center">
-                <Link
-                  className={
-                    "text-xs  py-3 ml-4 font-bold block p-4 rounded-l-full " +
-                    (window.location.href.indexOf("/app/buy-hINR") !== -1
-                      ? "text-secondary bg-white hover:text-primary-600"
-                      : "text-white hover:bg-primary-400")
-                  }
-                  to="/app/buy-hINR"
-                >
-                  hINRT
-                </Link>
-              </li>
-              <li className="items-center">
-                <Link
-                  className={
-                    "text-xs py-3 ml-4 font-bold block p-4 rounded-l-full " +
-                    (window.location.href.indexOf("/app/buy-hPESO") !== -1
-                      ? "text-secondary bg-white hover:text-primary-600"
-                      : "text-white hover:bg-primary-400")
-                  }
-                  to="/app/buy-hPESO"
-                >
-                  hPESO
                 </Link>
               </li>
             </ul>

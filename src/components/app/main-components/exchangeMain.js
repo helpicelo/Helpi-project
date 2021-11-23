@@ -7,10 +7,6 @@ class Main extends Component {
     return (
       <>
 
-        <div>
-            <h1 class="text-black text-bold text-lg text-xl"><b>EXCHANGE TOKENS</b></h1>
-        </div>
-
         <div class="container mx-auto">
             <div class="flex m-4 bg-emerald-200 border-2 shadow-lg border-green-500 p-4 rounded-lg opacity-50">
             <p class="text-black text-semibold text-justified text-md">
@@ -53,7 +49,7 @@ class Main extends Component {
                 event.preventDefault()
                 let aamount
                 aamount = this.ainput.value.toString()
-                this.props.a_b(aamount)
+                this.props.buy_a(aamount)
                 }}>
                 <div class="flex flex-row m-4 mt-1 shadow-lg">
                     <div class="flex w-full">
@@ -64,7 +60,7 @@ class Main extends Component {
                     </div>
                 </div>
                 <div class="flex m-4 mb-2">
-                    <button type="submit" className="block-inline bg-blueGray-800 text-white text-center active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow-lg hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full">BUY {this.props.a}</button>
+                    <button type="submit" className="block-inline bg-blueGray-800 text-white text-center active:bg-blueGray-600 text-sm font-bold px-6 py-3 rounded shadow-lg hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full">BUY {this.props.a}</button>
                 </div>
             </form>
           </div>
@@ -91,7 +87,7 @@ class Main extends Component {
                 event.preventDefault()
                 let bamount
                 bamount = this.binput.value.toString()
-                this.props.b_a(bamount)
+                this.props.sell_a(bamount)
                 }}>
                 <div class="flex flex-row m-4 mt-1 shadow-lg">
                     <div class="flex w-full">
@@ -102,7 +98,7 @@ class Main extends Component {
                     </div>
                 </div>
                 <div class="flex m-4 mb-2">
-                    <button type="submit" className="block-inline bg-blueGray-800 text-white text-center active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow-lg hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full">SELL {this.props.a}</button>
+                    <button type="submit" className="block-inline bg-blueGray-800 text-white text-center active:bg-blueGray-600 text-sm font-bold px-6 py-3 rounded shadow-lg hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full">SELL {this.props.a}</button>
                 </div>
             </form>
           </div>

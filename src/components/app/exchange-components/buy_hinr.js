@@ -4,10 +4,17 @@ import Web3 from 'web3'
 import { newKitFromWeb3 } from '@celo/contractkit';
 import BigNumber from "bignumber.js";
 import Tokenaddress from 'tokenaddress.json';
+import Currency from 'CurrencyToken.json';
+
+//Importing Utilities
+import {connectWallet} from '../../../Utilis/connectWallet.js';
+import {loadContract} from '../../../Utilis/ContractUtilis.js';
+import {formatBalance} from '../../../Utilis/ContractUtilis.js';
+import {loadTokens} from '../../../Utilis/ContractUtilis.js';
 
 // token contracts
 import ERCToken from 'abis/IERC20Token.json' //ERC20
-import MutateToken from 'abis/MutateToken.json'
+import Exchange from 'abis/ExchangeContract.json'
 
 // components
 import TokenMain from '../main-components/exchangeMain'
@@ -23,7 +30,7 @@ let b_token = "CELO"
 
 //contracts address
 const ERC20_DECIMALS = 18
-const contractaddress = Tokenaddress.MUTATE
+const contractaddress = Tokenaddress.BUY_SELL
 const aTokenaddress = Tokenaddress.INRT
 const bTokenaddress = Tokenaddress.CELO
 
@@ -34,101 +41,79 @@ class USD_INR extends Component {
     super(props)
     this.state = {
       account: '0x0',
-      a: a_token,
-      b: b_token,
-      atoken: {},
-      btoken: {},
+      a: "hUSD",
+      b: "CELO",
+      aToken: {},
+      bToken: {},
       contract: {},
       aTokenBalance: '0',
       bTokenBalance: '0',
       apoolBalance: '0',
-      celopoolBalance: '0',
-      exchangerate: '491',
+      bpoolBalance: '0',
+      exchangerate: '5.49',
       amount: '0',
       loading: true
     }
+    this.handleChange = this.handleChange.bind(this)
   }
 
   // This will call the celo blockchain data functions function and load the web3
   async componentWillMount() {
-    await this.connectCeloWallet()
+    let accounts = await connectWallet();
+    this.setState({account: accounts})
+    await this.loadingContracts()
+    await this.loadingTokens(Currency[this.state.a].address, Currency["CELO"].address)
     //await this.getExchangeRate()
   }
 
-   getExchangeRate = async function () {
-      var URL = Tokenaddress.URL + a_currency + "&to=" + b_currency
-      const response = await fetch(URL);
-      const data = await response.json();
-      this.setState({ exchangerate: data.result.toFixed(2) })
-   }
+  loadingContracts = async function () {
+      try {
+        const web3 = new Web3(window.celo);
+        kit = newKitFromWeb3(web3);
 
-  connectCeloWallet = async function () {
-     if (window.celo) {
-         try {
-            //notification("⚠ Please approve this DApp to use it.")
-            await window.celo.enable()
-            //notificationOff()
-            const web3 = new Web3(window.celo)
-            kit = newKitFromWeb3(web3)
+        //contract = new kit.web3.eth.Contract(marketplaceAbi, MPContractAddress)
+        // tokenswitch address
+        const contract = await loadContract(Exchange.abi, contractaddress)
+        this.setState({ contract })
+        console.log("Exchange Token loaded")
 
-            const accounts = await kit.web3.eth.getAccounts()
-            kit.defaultAccount = accounts[0]
-            this.setState({account: accounts[0]})
-            //console.log({account})
+      } catch (error) {
+        console.log("Error! -  Main Contract section")
+        console.log({ error })
+      }
+  }
 
-            this.setState({ loading: false })
-            console.log("Account connected")
+  loadingTokens = async function (address_a, address_b) {
+      try {
+        const web3 = new Web3(window.celo);
+        kit = newKitFromWeb3(web3);
+        this.setState({ loading: false })
 
-            //contract = new kit.web3.eth.Contract(marketplaceAbi, MPContractAddress)
-            // tokenswitch address
-            const contract = new kit.web3.eth.Contract(Exchange.abi, contractaddress)
-            this.setState({ contract })
-            /*let exchangerate = await tokenSwitch.methods.exchangerate().call()
-            this.setState({ exchangerate: exchangerate.toString() })*/
-            console.log("Contract loaded")
+        let aToken = await loadTokens(address_a, this.state.account, contractaddress)
+        this.setState({aToken: aToken.contract})
+        this.setState({aTokenBalance: aToken.accountBalance})
+        this.setState({apoolBalance: aToken.contractBalance})
 
-
-            //USD token contract
-            const atoken = new kit.web3.eth.Contract(ERCToken.abi, aTokenaddress)
-            this.setState({ atoken })
-            console.log("aToken loaded")
-            let aTokenBalance = await atoken.methods.balanceOf(this.state.account).call()
-            aTokenBalance = BigNumber(aTokenBalance).shiftedBy(-ERC20_DECIMALS)
-            aTokenBalance = aTokenBalance.toFixed(2)
-            this.setState({ aTokenBalance: aTokenBalance.toString() })
-            console.log("aTokenbalance loaded")
-            let apoolBalance = await atoken.methods.balanceOf(contractaddress).call()
-            apoolBalance = BigNumber(apoolBalance).shiftedBy(-ERC20_DECIMALS)
-            apoolBalance = apoolBalance.toFixed(2)
-            this.setState({ apoolBalance: apoolBalance.toString() })
-            console.log("a Token loaded")
-
-            //celo Token
-            const btoken = new kit.web3.eth.Contract(ERCToken.abi, bTokenaddress)
-            this.setState({ btoken})
-            let bTokenBalance = await btoken.methods.balanceOf(this.state.account).call()
-            bTokenBalance = BigNumber(bTokenBalance).shiftedBy(-ERC20_DECIMALS)
-            bTokenBalance = bTokenBalance.toFixed(2)
-            this.setState({ bTokenBalance: bTokenBalance.toString() })
-            let bpoolBalance = await btoken.methods.balanceOf(contractaddress).call()
-            bpoolBalance = BigNumber(bpoolBalance).shiftedBy(-ERC20_DECIMALS)
-            bpoolBalance = bpoolBalance.toFixed(2)
-            this.setState({ bpoolBalance: bpoolBalance.toString() })
-            console.log("b Token loaded")
+        let bToken = await loadTokens(address_b, this.state.account, contractaddress)
+        this.setState({bToken: bToken.contract})
+        this.setState({bTokenBalance: bToken.accountBalance})
+        this.setState({bpoolBalance: bToken.contractBalance})
 
 
-            console.log("All Contracts loaded")
+      } catch (error) {
+        console.log("Error! -  Token section")
+        console.log({ error })
+      }
+  }
 
-         } catch (error) {
-             //notification(`⚠️ ${error}.`)
-             console.log("Error! -  Catch section")
-             console.log({error})
-             //this.setState({ loading: false })
-         }
-     } else {
-            //notification("⚠️ Please install the CeloExtensionWallet.")
-            console.log("Error! - Else section")
-     }
+   updateValue = async function (atoken){
+    this.setState({aTokenaddress: Currency[atoken].address})
+    let exchangevalue = Currency[atoken].exchange_rate * Currency["CELO"].exchange_rate
+    exchangevalue = exchangevalue.toFixed(2)
+    this.setState({exchangerate: exchangevalue})
+    this.loadingTokens(Currency[atoken].address, Currency["CELO"].address)
+
+    console.log("We are in the update function")
   }
 
   // Function sections
@@ -141,8 +126,8 @@ class USD_INR extends Component {
     if(this.state.exchangerate > 0){
         let mul = false
     }else{ mul = true }
-    this.state.btoken.methods.approve(this.state.contract._address, aamount).send({ from: this.state.account }).on('transactionHash', (hash) => {
-      this.state.contract.methods.buyToken(aTokenaddress, bTokenaddress, aamount, new_exchangerate, mul).send({ from: this.state.account }).on('transactionHash', (hash) => {
+    this.state.bToken.methods.approve(this.state.contract._address, aamount).send({ from: this.state.account }).on('transactionHash', (hash) => {
+      this.state.contract.methods.buyToken(this.state.aToken._address, this.state.bToken._address, aamount, new_exchangerate, mul).send({ from: this.state.account }).on('transactionHash', (hash) => {
         this.setState({ loading: false})
       })
     })
@@ -156,14 +141,19 @@ class USD_INR extends Component {
     if(this.state.exchangerate > 0){
         let mul = false
     }else{ mul = true }
-    this.state.atoken.methods.approve(this.state.contract._address, bamount).send({ from: this.state.account }).on('transactionHash', (hash) => {
-      this.state.contract.methods.sellToken(bTokenaddress, aTokenaddress, bamount, new_exchangerate, mul).send({ from: this.state.account }).on('transactionHash', (hash) => {
+    this.state.aToken.methods.approve(this.state.contract._address, bamount).send({ from: this.state.account }).on('transactionHash', (hash) => {
+      this.state.contract.methods.sellToken(this.state.bToken._address, this.state.aToken._address, bamount, new_exchangerate, mul).send({ from: this.state.account }).on('transactionHash', (hash) => {
         this.setState({ loading: false})
       })
     })
   }
 
+  handleChange = event => {
+        let a = event.target.value
+        this.setState({a: event.target.value})
+        this.updateValue(event.target.value)
 
+  }
 
   render() {
     let content
@@ -183,16 +173,26 @@ class USD_INR extends Component {
 
         />
     }
+    let a =
+    <select class="flex w-full rounded-xl text-center text-lg text-white bg-red-400 border-white-400" onChange={this.handleChange}>
+        <option class="bg-white text-black" value="hUSD">BUY / SELL hUSD</option>
+        <option class="bg-white text-black" value="hINR">BUY / SELL hINR</option>
+        <option class="bg-white text-black"value="hPESO">BUY / SELL hPESO</option>
+    </select>
+
     return (
       <div>
         <div className="container-fluid mt-5">
           <div className="row">
-            <main role="main" className="col-lg-12 ml-auto mr-auto" style={{ maxWidth: '600px' }}>
+            <main role="main" className="col-lg-12 ml-auto mr-auto" style={{ maxWidth: '80%' }}>
               <div className="content mr-auto ml-auto">
-                 <div class="d-grid">
-                 <button type="button" class="btn btn-outline-danger btn-lg btn-block">BUY/SELL {this.state.a}</button>
-                 </div>
-
+                <div class="container mx-auto">
+                <div class="flex flex-row mx-auto mb-6">
+                    <div class="flex w-1/2 mx-auto border-2 border-white-400 shadow-lg rounded-xl">
+                        {a}
+                    </div>
+                </div>
+              </div>
                 {content}
 
               </div>

@@ -21,6 +21,7 @@ import stakingcontract from 'abis/StakingContract.json'
 
 // components
 import YieldMain from 'components/app/main-components/YieldMain'
+import TitlePill from '../../components/Pills/TitlePill.js'
 
 //contracts address
 const ERC20_DECIMALS = 18
@@ -178,17 +179,8 @@ class Staking extends Component {
             <main role="main" className="col-lg-12 ml-auto mr-auto" style={{ maxWidth: '80%' }}>
             <div className="">
             <div>
-                <div class="container mx-auto">
-                <div class="flex flex-row mx-auto mb-6">
-                    <div class="flex w-1/2 mx-auto text-center h-16 border-2 border-white-400 shadow-lg">
-                        {a}
-                        {b}
-                    </div>
-                </div>
-              </div>
-
+                {TitlePill(a,b)}
                 {content}
-
             </div>
             </div>
             </main>

@@ -18,6 +18,7 @@ import Exchange from 'abis/ExchangeContract.json'
 
 // components
 import TokenMain from '../main-components/exchangeMain'
+import TitlePill from '../../Pills/TitlePill.js'
 
 //variables **Change needed here
 let kit
@@ -174,11 +175,12 @@ class USD_INR extends Component {
         />
     }
     let a =
-    <select class="flex w-full rounded-xl text-center text-lg text-white bg-red-400 border-white-400" onChange={this.handleChange}>
+    <select class="flex w-full rounded-none text-center text-lg text-white bg-red-400 border-white-400" onChange={this.handleChange}>
         <option class="bg-white text-black" value="hUSD">BUY / SELL hUSD</option>
         <option class="bg-white text-black" value="hINR">BUY / SELL hINR</option>
         <option class="bg-white text-black"value="hPESO">BUY / SELL hPESO</option>
     </select>
+    let b = <></>
 
     return (
       <div>
@@ -186,13 +188,8 @@ class USD_INR extends Component {
           <div className="row">
             <main role="main" className="col-lg-12 ml-auto mr-auto" style={{ maxWidth: '80%' }}>
               <div className="content mr-auto ml-auto">
-                <div class="container mx-auto">
-                <div class="flex flex-row mx-auto mb-6">
-                    <div class="flex w-1/2 mx-auto border-2 border-white-400 shadow-lg rounded-xl">
-                        {a}
-                    </div>
-                </div>
-              </div>
+
+                {TitlePill(a,b)}
                 {content}
 
               </div>

@@ -18,6 +18,7 @@ import MutateToken from 'abis/MutateToken.json'
 
 // components
 import TokenMain from '../main-components/Main'
+import TitlePill from '../../Pills/TitlePill.js'
 
 //variables
 let kit
@@ -192,17 +193,9 @@ class USD_cPESO extends Component {
             <main role="main" className="col-lg-12 ml-auto mr-auto" style={{ maxWidth: '80%' }}>
             <div className="">
             <div>
-              <div class="container mx-auto">
-                <div class="flex flex-row mx-auto mb-6">
-                    <div class="flex w-1/2 mx-auto border-2 border-white-400 shadow-lg rounded-xl">
-                        {a}
-                        {b}
-                    </div>
-                </div>
-              </div>
+                {TitlePill(a,b)}
                 {content}
-
-              </div>
+            </div>
             </div>
             </main>
           </div>

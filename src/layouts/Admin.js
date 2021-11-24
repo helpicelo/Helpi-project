@@ -14,8 +14,8 @@ import Settings from "views/app/Settings.js";
 import Tables from "views/app/Tables.js";
 import Vesting from "views/app/Vesting";
 import Staking from "views/app/Stacking";
-import fundtransfer from 'components/app/token-components/fund_transfer.js'
-import buysell from 'components/app/exchange-components/buy_sell.js'
+import fundtransfer from 'views/app/fund_transfer.js'
+import buysell from 'views/app/buy_sell.js'
 import CONTRIBUTE from 'views/Contribute.js'
 
 export default function Admin() {

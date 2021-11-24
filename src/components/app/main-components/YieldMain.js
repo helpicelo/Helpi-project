@@ -1,31 +1,26 @@
 import React, { Component } from 'react'
+import CardInfo from '../../Cards/CardInfo.js'
+import Pill from '../../Pills/pills.js'
 
 class YieldMain extends Component {
 
   render() {
+
+    let information =
+    <p>
+        Stake <i>{this.props.tokenName}</i> and earn <i>Helpi Tokens</i> as a reward according to the Return rate. To earn more
+        reward, stake the tokens for longer durations and keep contributing to the network every 24 hours or less through the <b>Contribute</b> Tab.
+    </p>
+
     return (
       <>
 
-        <div class="container mx-auto">
-            <div class="flex m-4 bg-emerald-200 border-2 shadow-lg border-green-500 p-4 rounded-lg opacity-50">
-            <p class="text-black text-semibold text-justified text-md">
-                Stake <i>{this.props.tokenName}</i> and earn <i>Helpi Tokens</i> as a reward according to the Return rate. To earn more
-                reward, stake the tokens for longer durations and keep contributing to the network every 24 hours or less through the <b>Contribute</b> Tab.
-            </p>
-            </div>
-        </div>
+        {CardInfo(information)}
 
         <div class="container mx-auto">
             <div class="flex m-4">
-                <div class="flex-1 bg-yellow-400 m-4 p-4 shadow-lg rounded-lg">
-                <h4 class="text-white text-center text-bold text-lg">LOCKED {this.props.tokenName} BALANCE</h4>
-                <p class="text-white text-center text-md">{this.props.stakingBalance}</p>
-                </div>
-
-                <div class="flex-1 bg-emerald-400 m-4 p-4 shadow-lg rounded-lg">
-                <h4 class="text-white text-center text-bold text-lg">HELPI REWARDS</h4>
-                <p class="text-white text-center text-md">{this.props.helpiTokenBalance}</p>
-                </div>
+                {Pill("yellow", "LOCKED " + this.props.tokenName, this.props.stakingBalance)}
+                {Pill("emerald", "HELPI REWARDS", this.props.helpiTokenBalance)}
             </div>
         </div>
 

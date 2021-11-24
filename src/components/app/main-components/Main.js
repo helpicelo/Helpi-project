@@ -1,38 +1,31 @@
 import React, { Component } from 'react'
-
+import CardInfo from '../../Cards/CardInfo.js'
+import Pill from '../../Pills/pills.js'
 
 class Main extends Component {
 
   render() {
+
+    let information =
+    <p>
+        Now Directly Send <b>{this.props.a}</b> or <b>{this.props.b}</b> to anyone without having to swap
+        currencies already in your wallet.
+        <br></br><br></br>
+        <i>Example: Jake send 100 <i>{this.props.a}</i> to Amy, however Amy will recieve
+        {100 * this.props.exchangerate} <i>{this.props.b}</i> into her wallet, which is the equivalent amount
+        in her local currency when excahnged at the current exchange rate of {this.props.exchangerate}.</i>
+    </p>
+
     return (
       <>
 
-        <div class="container mx-auto">
-            <div class="flex m-4 bg-emerald-200 border-2 shadow-lg border-green-500 p-4 rounded-lg opacity-50">
-                <p class="text-black text-semibold text-justified text-md">
-                Now Directly Send <b>{this.props.a}</b> or <b>{this.props.b}</b> to anyone without having to swap currencies
-                already in your wallet.
-                <br></br><br></br>
-                <i>Example: Jake send 100 <i>{this.props.a}</i> to Amy, however Amy will recieve {100 * this.props.exchangerate} <i>{this.props.b}</i> into her wallet, which is
-                the equivalent amount in her local currency when excahnged at the current exchange rate of {this.props.exchangerate}.</i>
-                </p>
-            </div>
-        </div>
+        {CardInfo(information)}
 
         <div class="container mx-auto">
             <div class="flex m-4">
-                <div class="flex-1 bg-yellow-400 m-4 p-4 shadow-lg rounded-lg">
-                <h4 class="text-white text-center text-bold text-lg">{this.props.a} POOL</h4>
-                <p class="text-white text-center text-md">{this.props.apoolBalance}</p>
-                </div>
-                <div class="flex-1 bg-blue-400 m-4 p-4 shadow-lg rounded-lg">
-                <h4 class="text-white text-center text-bold text-lg">{this.props.b} POOL</h4>
-                <p class="text-white text-center text-md">{this.props.bpoolBalance}</p>
-                </div>
-                <div class="flex-1 bg-emerald-400 m-4 p-4 shadow-lg rounded-lg">
-                <h4 class="text-white text-center text-bold text-lg">EXCHANGE RATE</h4>
-                <p class="text-white text-center text-md">{this.props.exchangerate} {this.props.b} / {this.props.a}</p>
-                </div>
+                {Pill("yellow", this.props.a + " Pools", this.props.apoolBalance)}
+                {Pill("blue", this.props.b + " Pools", this.props.bpoolBalance)}
+                {Pill("emerald", "EXCHANGE RATE", this.props.exchangerate + " " + this.props.b + " / " + this.props.a)}
             </div>
         </div>
 

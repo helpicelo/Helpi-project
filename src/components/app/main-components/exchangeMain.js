@@ -1,31 +1,25 @@
 import React, { Component } from 'react'
-
+import CardInfo from '../../Cards/CardInfo.js'
+import Pill from '../../Pills/pills.js'
 
 class Main extends Component {
 
   render() {
+
+    let information =
+    <p>
+        Buy or Sell using your Tokens in your wallet
+    </p>
+
     return (
       <>
 
-        <div class="container mx-auto">
-            <div class="flex m-4 bg-emerald-200 border-2 shadow-lg border-green-500 p-4 rounded-lg opacity-50">
-            <p class="text-black text-semibold text-justified text-md">
-                Buy or Sell using your Tokens in your wallet
-            </p>
-            </div>
-        </div>
+        {CardInfo(information)}
 
         <div class="container mx-auto">
             <div class="flex m-4">
-                <div class="flex-1 bg-yellow-400 m-4 p-4 shadow-lg rounded-lg">
-                <h4 class="text-white text-center text-bold text-lg">{this.props.a} Reserve</h4>
-                <p class="text-white text-center text-md">{(this.props.apoolBalance)} {(this.props.a)}</p>
-                </div>
-                <div class="flex-1 bg-blue-400 m-4 p-4 shadow-lg rounded-lg">
-                <h4 class="text-white text-center text-bold text-lg">{this.props.b} Reserve</h4>
-                <p class="text-white text-center text-md">{(this.props.bpoolBalance)} {(this.props.b)}</p>
-                </div>
-
+                {Pill("yellow", this.props.a + " Pools", this.props.apoolBalance+ " " + this.props.a)}
+                {Pill("blue", this.props.b + " Pools", this.props.bpoolBalance+ " " + this.props.b)}
             </div>
         </div>
 

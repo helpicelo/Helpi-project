@@ -1,38 +1,34 @@
 import React, { Component } from 'react'
-
+import CardInfo from '../Cards/CardInfo.js'
+import Pill from '../Pills/pills.js'
+import TitlePill from '../Pills/TitlePill.js'
 
 class YieldMain extends Component {
 
   render() {
+
+    let information =
+    <p>
+        Unlock a fraction of the locked rewards every <b>Three Days</b>. You can only claim the unlocked rewards into your account.
+    </p>
+    let a =
+    <button class= "block-inline w-full rounded-none text-white text-center text-xl bg-red-400" onClick={this.handleClick}>
+        Claim Rewards
+    </button>
+    let b = <></>
+
     return (
       <>
 
-        <div>
-            <h1 class="text-black text-bold text-lg text-xl"><b>CLAIM REWARDS</b></h1>
-        </div>
+        {TitlePill(a, b)}
 
-        <div class="container mx-auto">
-            <div class="flex m-4 bg-emerald-200 border-2 shadow-lg border-green-500 p-4 rounded-lg opacity-50">
-            <p class="text-black text-semibold text-justified text-md">
-                Unlock a fraction of the locked rewards every <b>Three Days</b>. You can only claim the unlocked rewards into your account.
-            </p>
-            </div>
-        </div>
+        {CardInfo(information)}
 
         <div class="container mx-auto">
             <div class="flex m-4">
-                <div class="flex-1 bg-red-400 m-4 p-4 shadow-lg rounded-lg">
-                <h4 class="text-white text-center text-bold text-lg">LOCKED REWARDS</h4>
-                <p class="text-white text-center text-md">{this.props.lockedBalance}</p>
-                </div>
-                <div class="flex-1 bg-blue-400 m-4 p-4 shadow-lg rounded-lg">
-                <h4 class="text-white text-center text-bold text-lg">UNLOCKED REWARDS</h4>
-                <p class="text-white text-center text-md">{this.props.releasedBalance}</p>
-                </div>
-                <div class="flex-1 bg-emerald-400 m-4 p-4 shadow-lg rounded-lg">
-                <h4 class="text-white text-center text-bold text-lg">CLAIMED REWARDS</h4>
-                <p class="text-white text-center text-md">{this.props.redeemedBalance}</p>
-                </div>
+                {Pill("red", "LOCKED REWARDS", this.props.lockedBalance)}
+                {Pill("blue", "UNLOCKED REWARDS", this.props.releasedBalance)}
+                {Pill("emerald", "CLAIMED REWARDS", this.props.redeemedBalance)}
             </div>
         </div>
 

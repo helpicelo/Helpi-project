@@ -17,6 +17,7 @@ import stakingcontract from '../abis/StakingContract.json'
 // components
 
 //import AdminMain from './Main_components/adminMain'
+import CardInfo from '../components/Cards/CardInfo.js'
 
 
 //contracts address
@@ -128,6 +129,18 @@ class Contribute extends Component {
                 CONTRIBUTE
                 </button>
     }
+
+    let information =
+    <p>
+        Contribute to the network every 24 hours or less to help others earn rewards on their Staking while earning rewards yourself.
+        <br></br>
+        <br></br>
+        <b>"When you help others, others help you because together we can grow more."</b>
+        <br></br>
+        <br></br>
+        <i><b>Note: </b> If you do not contribute to the system within 24 hours of your last contribution, you would not be rewarded
+        when others contribute to the system.</i> Your reward cycle will start again when you contribute again to the network.
+    </p>
     return (
       <div>
         <div className="container-fluid mt-5">
@@ -136,20 +149,7 @@ class Contribute extends Component {
             <div className="">
             <div>
 
-                <div class="container mx-auto">
-                    <div class="flex m-4 bg-emerald-200 border-2 shadow-lg border-green-500 p-4 rounded-lg opacity-50">
-                        <p class="text-black text-semibold text-justified text-md">
-                        Contribute to the network every 24 hours or less to help others earn rewards on their Staking while earning rewards yourself.
-                        <br></br>
-                        <br></br>
-                        <b>"When you help others, others help you because together we can grow more."</b>
-                        <br></br>
-                        <br></br>
-                        <i><b>Note: </b> If you do not contribute to the system within 24 hours of your last contribution, you would not be rewarded
-                        when others contribute to the system.</i> Your reward cycle will start again when you contribute again to the network.
-                        </p>
-                    </div>
-                </div>
+            {CardInfo(information)}
 
             <br></br>
             {alert}

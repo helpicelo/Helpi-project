@@ -20,7 +20,7 @@ import cUSDToken from 'abis/IERC20Token.json'
 import stakingcontract from 'abis/StakingContract.json'
 
 // components
-import YieldMain from 'components/app/main-components/YieldMain'
+import YieldMain from 'components/app/YieldMain'
 import TitlePill from '../../components/Pills/TitlePill.js'
 
 //contracts address
